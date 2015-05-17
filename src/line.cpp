@@ -89,7 +89,7 @@ bool Line::findPoint(LinePoint &pointToFind,LinePoint::LinePointParam linePointP
     DRAWCROSS(linePointParam.x,linePointParam.y,255,0,0);
     bool found =  pointToFind.find(linePointParam DRAWDEBUG_ARG);
     if(found && m_LineParam.validPoint){
-        found = m_LineParam.validPoint(pointToFind);
+        found = m_LineParam.validPoint(pointToFind DRAWDEBUG_ARG);
         //TODO
         //float diffAngle = m_LineParam.searchAngle-;
     }

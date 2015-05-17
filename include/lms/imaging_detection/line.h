@@ -25,7 +25,7 @@ public:
         /**
          * @brief validPoint return true if the point is valid and should be added
          */
-        std::function<bool(lms::imaging::find::LinePoint&)> validPoint;
+        std::function<bool(lms::imaging::find::LinePoint& DRAWDEBUG_PARAM)> validPoint;
     };
 
     typedef LineParam parameterType;
