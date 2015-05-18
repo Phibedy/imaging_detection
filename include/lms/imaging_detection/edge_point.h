@@ -9,7 +9,7 @@
 namespace lms{
 namespace imaging{
 namespace find{
-class EdgePoint: public lms::math::vertex2i{
+class EdgePoint: public lms::math::vertex2f{
 
 public:
     enum class EdgeType {LOW_HIGH, HIGH_LOW, PLANE};

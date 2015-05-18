@@ -4,7 +4,9 @@
 #include <cmath>
 #include <lms/imaging/draw_debug.h>
 #include <algorithm>
+#include <iostream>
 #include "lms/math/vertex.h"
+#include "lms/imaging_detection/edge_point.h"
 namespace lms{
 namespace imaging{
 namespace find{
@@ -95,6 +97,38 @@ bool Line::findPoint(LinePoint &pointToFind,LinePoint::LinePointParam linePointP
     }
     return found;
 }
+
+
+bool Line::getSearchPoint(int &x, int &y, float &angle){
+    float totalLength = length();
+    float res = 0;
+    if(points().size() == 1){
+        x = points()[0].low_high.x();
+        y = points()[0].low_high.y();
+        angle = points()[0].param().searchAngle;
+        return true;
+    }
+    for(int i = 0; i+1 < (int)points().size();i++){
+        res += points()[i].low_high.distance(points()[i].low_high);
+        if(res >= totalLength/2.0){
+            x = points()[i].low_high.x();
+            y = points()[i].low_high.y();
+            angle = points()[i].param().searchAngle;
+            return true;
+        }
+    }
+    return false;
+}
+
+float Line::length(){
+    float res = 0;
+    for(int i = 0; i+1 < (int)points().size();i++){
+        res += points()[i].low_high.distance(points()[i+1].low_high);
+        std::cout << points().size() << " " << "res" << res << std::endl;
+    }
+    return res;
+}
+
 /**
   * TODO es kommt auf die suchrichtung an, was direction==true oder false tut, ab dem winkel > 90 dreht sich die suchrichtung im Bild um. Veranschaulicht wird das durch einen Kreis wobei man in den beiden oberen Quadranten sucht.
   */

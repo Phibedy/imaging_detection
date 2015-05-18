@@ -35,7 +35,7 @@ public:
     bool findPoint(LinePoint &pointToFind,LinePoint::LinePointParam linePointParam DRAWDEBUG_PARAM);
 
     void setParam(const LineParam &lineParam);
-
+    float length();
     const std::deque<LinePoint> &points() const;
 protected:
     LineParam m_LineParam;
@@ -43,6 +43,8 @@ protected:
 
     void extend(bool direction DRAWDEBUG);
     bool verifyPoint(LinePoint &lp, LinePoint::LinePointParam lParam DRAWDEBUG_PARAM);
+    //get a good point that could be found next time again with searchAngle
+    bool getSearchPoint(int &x, int &y, float &angle);
 };
 
 } //namepsace find

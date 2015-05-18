@@ -2,6 +2,7 @@ set ( SOURCES
     "src/edge_point.cpp"
     "src/line.cpp"
     "src/line_point.cpp"
+    "src/splitted_line.cpp"
 )
 
 set (HEADERS
@@ -9,6 +10,7 @@ set (HEADERS
     "include/lms/imaging_detection/line.h"
     "include/lms/imaging_detection/line_point.h"
     "include/lms/imaging_detection/image_hint.h"
+    "include/lms/imaging_detection/splitted_line.h"
 )
 
 include_directories("include")
