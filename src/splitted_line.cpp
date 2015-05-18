@@ -11,22 +11,43 @@ bool SplittedLine::find(DRAWDEBUG_PARAM_N){
     m_lines.clear();
     //try to find first line
     Line l;
-    //try to find first line
     Line::LineParam lineParam = m_param;
+    lineParam.maxLength = m_param.lineMaxLength;
+    int findCount = 0;
+    float totalLength = 0;
     while(findLine(l,lineParam DRAWDEBUG_ARG)){
         m_lines.push_back(l);
-        lms::math::vertex2f diff = l.points()[0].high_low-l.points()[l.points().size()-1].high_low;
-        float angle = diff.angle();
-        //we are looking for the angle points upwards (quite bad)
-        if(angle < 0){
-            angle += M_PI;
+        totalLength += l.length();
+        //get highest point
+        lms::math::vertex2f top;
+        lms::math::vertex2f bot;
+        float yMax = 0;
+        float yMin = INFINITY;
+        for(const LinePoint &lp:l.points()){
+            float y = 240-lp.low_high.y;
+            if(y > yMax){
+                yMax = y;
+                top = lp.low_high;
+            }
+            if(y < yMin){
+                yMin = y;
+                bot = lp.low_high;
+            }
         }
-        lineParam.x = m_param.distanceBetween*0.3*cos(angle);
-        lineParam.x = m_param.distanceBetween*0.3*sin(angle);
-        float length = l.length();
-        std::cout << "length "<<l.length()<<std::endl;
-        if(length > m_param.lineMaxLength || length < m_param.lineMinLength)
+        float angle = (top-bot).angle();
+        lineParam.x = top.x +m_param.distanceBetween*cos(angle);
+        //- because of coord-sys
+        lineParam.y = top.y +m_param.distanceBetween*sin(angle);
+        lineParam.searchAngle = angle +M_PI_2l;
+        findCount++;
+        //TODO in config
+        if(findCount > 3){
             break;
+        }
+        if(totalLength > m_param.maxLength){
+            break;
+        }
+        l.points().clear();
     }
     return m_lines.size() > 0;
 }
@@ -36,7 +57,7 @@ bool SplittedLine::findLine(Line &l,Line::LineParam lineParam DRAWDEBUG_PARAM){
     bool found = true;
     while(!l.find(lineParam DRAWDEBUG_ARG)){
         currentDistance += m_param.distanceBetween/3.0;
-        lineParam.y = m_param.y -currentDistance;
+        lineParam.y = lineParam.y -m_param.distanceBetween/3.0;
         if(currentDistance >= m_param.distanceBetween){
             found = false;
             break;

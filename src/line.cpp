@@ -27,7 +27,6 @@ bool Line::find(DRAWDEBUG_PARAM_N){
         if(m_LineParam.verify){
             found = verifyPoint(lp,lParam DRAWDEBUG_ARG);
         }
-        std::cout << "preferVerify: found "<<found << std::endl;
         if(!found){
             found = findPoint(lp,lParam DRAWDEBUG_ARG);
         }
@@ -124,7 +123,6 @@ float Line::length(){
     float res = 0;
     for(int i = 0; i+1 < (int)points().size();i++){
         res += points()[i].low_high.distance(points()[i+1].low_high);
-        std::cout << points().size() << " " << "res" << res << std::endl;
     }
     return res;
 }
@@ -226,7 +224,9 @@ void Line::extend(bool direction DRAWDEBUG){
 const std::deque<LinePoint>& Line::points() const {
     return m_points;
 }
-
+std::deque<LinePoint>& Line::points() {
+    return m_points;
+}
 } //namepsace find
 } //namespace imaging
 } //namespace lms
