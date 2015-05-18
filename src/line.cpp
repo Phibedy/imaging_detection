@@ -103,16 +103,16 @@ bool Line::getSearchPoint(int &x, int &y, float &angle){
     float totalLength = length();
     float res = 0;
     if(points().size() == 1){
-        x = points()[0].low_high.x();
-        y = points()[0].low_high.y();
+        x = points()[0].low_high.x;
+        y = points()[0].low_high.y;
         angle = points()[0].param().searchAngle;
         return true;
     }
     for(int i = 0; i+1 < (int)points().size();i++){
         res += points()[i].low_high.distance(points()[i].low_high);
         if(res >= totalLength/2.0){
-            x = points()[i].low_high.x();
-            y = points()[i].low_high.y();
+            x = points()[i].low_high.x;
+            y = points()[i].low_high.y;
             angle = points()[i].param().searchAngle;
             return true;
         }
