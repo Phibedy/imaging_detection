@@ -30,7 +30,7 @@ bool LinePoint::find(DRAWDEBUG_PARAM_N){
     }
 
     //draw the found point
-    DRAWCROSS(low_high.x(),low_high.y(),0,255,0);
+    DRAWCROSS(low_high.x,low_high.y,0,255,0);
     //check if the user is only looking for one edge
     if(m_LinePointParam.edge){
         //the low_high edge was found :)
@@ -39,8 +39,8 @@ bool LinePoint::find(DRAWDEBUG_PARAM_N){
 
     //set new values for second edge
     param.searchType = EdgePoint::EdgeType::HIGH_LOW;
-    param.x = low_high.x();
-    param.y = low_high.y();
+    param.x = low_high.x;
+    param.y = low_high.y;
     //TODO: Maybe do some error checking on the sobelAngle?
     param.searchAngle = low_high.sobelNormal();
     //TODO we could reduce the search-length
@@ -65,7 +65,7 @@ bool LinePoint::find(DRAWDEBUG_PARAM_N){
         }
     }
     //found both low->high and high->low edge!
-    DRAWCROSS(high_low.x(),high_low.y(),255,255,0);
+    DRAWCROSS(high_low.x,high_low.y,255,255,0);
 
     //check the width of the linePoint is valid
     float _distance = distance();
@@ -81,12 +81,12 @@ float LinePoint::distance(){
 }
 
 float LinePoint::getAngle(){
-    return atan2(high_low.y()-low_high.y(),high_low.x()-low_high.x());
+    return atan2(high_low.y-low_high.y,high_low.x-low_high.x);
 }
 
 float LinePoint::getSlope(){
-    float dx = low_high.x()-high_low.x();
-    float dy = low_high.y()-high_low.y();
+    float dx = low_high.x-high_low.x;
+    float dy = low_high.y-high_low.y;
     return dy/dx;
 }
 
