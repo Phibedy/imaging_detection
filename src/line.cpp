@@ -191,7 +191,7 @@ void Line::extend(bool direction DRAWDEBUG){
             LinePoint::LinePointParam param = m_LineParam;
             param.x = pixel.x;
             param.y = pixel.y;
-            param.searchLength = m_LineParam.lineWidthMax*3;
+            param.searchLength = m_LineParam.lineWidthMax*m_LineParam.lineWidthTransMultiplier;
             param.searchAngle = searchNormalAngle;
 
 

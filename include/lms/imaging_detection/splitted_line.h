@@ -26,6 +26,8 @@ public:
     bool findLine(Line &l,Line::LineParam lineParam DRAWDEBUG_PARAM);
 
     void setParam(const SplittedLineParam &param);
+    const std::vector<Line>& lines() const;
+
 };
 
 }

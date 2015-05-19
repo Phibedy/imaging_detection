@@ -8,9 +8,13 @@ bool SplittedLine::find(SplittedLineParam &lineParam DRAWDEBUG_PARAM){
 }
 
 bool SplittedLine::find(DRAWDEBUG_PARAM_N){
-    m_lines.clear();
     //try to find first line
     Line l;
+    if(m_lines.size() > 0){
+        //TODO just for verify, not that smart as verify should be changed
+        l = m_lines[0];
+        m_lines.clear();
+    }
     Line::LineParam lineParam = m_param;
     lineParam.maxLength = m_param.lineMaxLength;
     int findCount = 0;
@@ -68,6 +72,10 @@ bool SplittedLine::findLine(Line &l,Line::LineParam lineParam DRAWDEBUG_PARAM){
 
 void SplittedLine::setParam(const SplittedLineParam &lineParam){
     this->m_param = lineParam;
+}
+
+const std::vector<Line>& SplittedLine::lines() const{
+    return m_lines;
 }
 }
 }
