@@ -49,6 +49,7 @@ public:
     const lms::imaging::Image* getTarget() const override{
         return parameter.target;
     }
+
 };
 
 class HintContainer{
@@ -60,7 +61,7 @@ public:
         hints.push_back(hint);
     }
 
-    void reset(){
+    void clear(){
         hints.clear();
     }
 

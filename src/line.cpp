@@ -11,6 +11,18 @@ namespace lms{
 namespace imaging{
 namespace find{
 
+bool Line::findPoint(LinePoint &pointToFind,LinePoint::LinePointParam linePointParam DRAWDEBUG_PARAM){
+    //find first point
+    //Draw red cross
+    DRAWCROSS(linePointParam.x,linePointParam.y,255,0,0);
+    bool found =  pointToFind.find(linePointParam DRAWDEBUG_ARG);
+    if(found && m_LineParam.validPoint){
+        found = m_LineParam.validPoint(pointToFind DRAWDEBUG_ARG);
+        //TODO
+        //float diffAngle = m_LineParam.searchAngle-;
+    }
+    return found;
+}
 bool Line::find(LineParam lineParam DRAWDEBUG_PARAM){
     setParam(lineParam);
     return find(DRAWDEBUG_ARG_N);
@@ -83,21 +95,6 @@ bool Line::verifyPoint(LinePoint &lp, LinePoint::LinePointParam lParam DRAWDEBUG
     return found;
 }
 
-
-bool Line::findPoint(LinePoint &pointToFind,LinePoint::LinePointParam linePointParam DRAWDEBUG_PARAM){
-    //find first point
-    //Draw red cross
-    DRAWCROSS(linePointParam.x,linePointParam.y,255,0,0);
-    bool found =  pointToFind.find(linePointParam DRAWDEBUG_ARG);
-    if(found && m_LineParam.validPoint){
-        found = m_LineParam.validPoint(pointToFind DRAWDEBUG_ARG);
-        //TODO
-        //float diffAngle = m_LineParam.searchAngle-;
-    }
-    return found;
-}
-
-
 bool Line::getSearchPoint(int &x, int &y, float &angle){
     float totalLength = length();
     float res = 0;
@@ -119,13 +116,6 @@ bool Line::getSearchPoint(int &x, int &y, float &angle){
     return false;
 }
 
-float Line::length(){
-    float res = 0;
-    for(int i = 0; i+1 < (int)points().size();i++){
-        res += points()[i].low_high.distance(points()[i+1].low_high);
-    }
-    return res;
-}
 
 /**
   * TODO es kommt auf die suchrichtung an, was direction==true oder false tut, ab dem winkel > 90 dreht sich die suchrichtung im Bild um. Veranschaulicht wird das durch einen Kreis wobei man in den beiden oberen Quadranten sucht.
@@ -221,12 +211,6 @@ void Line::extend(bool direction DRAWDEBUG){
     }
 }
 
-const std::deque<LinePoint>& Line::points() const {
-    return m_points;
-}
-std::deque<LinePoint>& Line::points() {
-    return m_points;
-}
 } //namepsace find
 } //namespace imaging
 } //namespace lms
