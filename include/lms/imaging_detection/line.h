@@ -21,7 +21,7 @@ public:
             stepLengthMax = config->get<float>("stepLengthMax",10);
             stepLengthMin = config->get<float>("stepLengthMin",2);
             maxLength = config->get<float>("maxLength",300);
-            approxEdge = config->get<bool>("approxEdge",lfase);
+            approxEdge = config->get<bool>("approxEdge",false);
             lineWidthTransMultiplier = config->get<float>("lineWidthTransMultiplier",1);
         }
 

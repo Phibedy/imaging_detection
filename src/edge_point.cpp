@@ -1,19 +1,17 @@
-#include <lms/imaging_detection/edge_point.h>
-#include <math.h>
-#include <stdio.h>
+#include <cstdio>
 #include <algorithm>
 #include <cmath>
-#include <lms/imaging/image_factory.h>
-#include <lms/math/math.h>
-#include "lms/math/curve.h"
-
-#include <lms/imaging/draw_debug.h>
 #include <iostream>
 
-namespace lms{
-namespace imaging{
-namespace find{
+#include "lms/imaging_detection/edge_point.h"
+#include "lms/imaging/image_factory.h"
+#include "lms/math/math.h"
+#include "lms/math/curve.h"
+#include "lms/imaging/draw_debug.h"
 
+namespace lms {
+namespace imaging {
+namespace find {
 
 void EdgePoint::setSearchParam(const EdgePointParam &searchParam){
     m_searchParam = searchParam;
@@ -77,7 +75,6 @@ bool EdgePoint::find(DRAWDEBUG_PARAM_N){
     return found;
 }
 
-
 EdgePoint::EdgeType EdgePoint::setType() {
     float x2 = cos(m_searchParam.searchAngle);
     float y2 = -sin(m_searchParam.searchAngle);
@@ -92,7 +89,6 @@ EdgePoint::EdgeType EdgePoint::setType() {
     return m_type;
 }
 
-
 int EdgePoint::sobelX(){
     return m_sobelX;
 }
@@ -100,7 +96,6 @@ int EdgePoint::sobelX(){
 int EdgePoint::sobelY(){
     return m_sobelY;
 }
-
 
 float EdgePoint::sobelTangent(){
     return m_sobelTangent;
@@ -113,6 +108,7 @@ float EdgePoint::sobelNormal(){
 EdgePoint::EdgeType EdgePoint::type(){
     return m_type;
 }
+
 } //namepsace find
 } //namespace imaging
 } //namespace lms

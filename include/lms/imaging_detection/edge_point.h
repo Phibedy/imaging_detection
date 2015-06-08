@@ -1,22 +1,31 @@
 #ifndef IMAGE_EDGE_POINT_H
-
 #define IMAGE_EDGE_POINT_H
 
-#include <math.h>
-#include <lms/imaging/draw_debug.h>
+#include <cmath>
+
+#include "lms/imaging/draw_debug.h"
 #include "lms/deprecated.h"
 #include "lms/math/vertex.h"
 #include "lms/type/module_config.h"
 namespace lms{
 namespace imaging{
 namespace find{
-class EdgePoint: public lms::math::vertex2f{
-
+/**
+ * @brief Find a Low-High edge, High-Low edge or plane, beginning from a
+ * starting point and moving to a target point specified by angle and distance
+ * relative to the starting point.
+ *
+ * The sobel angle is computed for every point along the search line to
+ * find an adge.
+ */
+class EdgePoint: public lms::math::vertex2f {
 public:
     enum class EdgeType {LOW_HIGH, HIGH_LOW, PLANE};
 
     struct EdgePointParam{
-        EdgePointParam():x(0),y(0),target(nullptr),searchLength(0),searchAngle(0),searchType(EdgeType::PLANE),sobelThreshold(0),gaussBuffer(nullptr),verify(false),preferVerify(false){
+        EdgePointParam() : x(0), y(0), target(nullptr), searchLength(0),
+            searchAngle(0), searchType(EdgeType::PLANE), sobelThreshold(0),
+            gaussBuffer(nullptr), verify(false), preferVerify(false) {
         }
 
         virtual void fromConfig(const lms::type::ModuleConfig *config){
@@ -39,7 +48,8 @@ public:
         int sobelThreshold;
         Image *gaussBuffer;
         /**
-         * @brief verify if true find will try to find it with the old values if the new one don't find anything
+         * @brief verify if true find will try to find it with the old values
+         * if the new one don't find anything
          */
         bool verify;
         bool preferVerify;
@@ -61,20 +71,26 @@ private:
      */
     EdgePoint::EdgeType setType();
 
-    public:
-        void setSearchParam(const EdgePointParam &searchParam);
-        bool find(DRAWDEBUG_PARAM_N);
-        bool find(const EdgePointParam &searchParam DRAWDEBUG_PARAM);
-        int sobelX();
-        int sobelY();
-        /**
-         * @brief sobelAngle
-         * @return the angle from -PI to PI
-         */
-        float sobelTangent();
-        float sobelNormal();
-        EdgeType type();
+public:
+    void setSearchParam(const EdgePointParam &searchParam);
 
+    /**
+     * @brief Start searching for an edge.
+     * @return true if an edge of the specified type and the minimum threshold
+     * is found, otherwise false
+     */
+    bool find(DRAWDEBUG_PARAM_N);
+    bool find(const EdgePointParam &searchParam DRAWDEBUG_PARAM);
+    int sobelX();
+    int sobelY();
+
+    /**
+     * @brief sobelAngle
+     * @return the angle from -PI to PI
+     */
+    float sobelTangent();
+    float sobelNormal();
+    EdgeType type();
 };
 
 } //namepsace find
