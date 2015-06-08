@@ -15,6 +15,16 @@ public:
     struct LineParam:public LinePoint::LinePointParam{
         LineParam():stepLengthMin(0),stepLengthMax(0),maxLength(INFINITY),approxEdge(false),lineWidthTransMultiplier(2),validPoint(nullptr){
         }
+
+        virtual void fromConfig(const lms::type::ModuleConfig *config){
+            LinePointParam::fromConfig(config);
+            stepLengthMax = config->get<float>("stepLengthMax",10);
+            stepLengthMin = config->get<float>("stepLengthMin",2);
+            maxLength = config->get<float>("maxLength",300);
+            approxEdge = config->get<bool>("approxEdge",lfase);
+            lineWidthTransMultiplier = config->get<float>("lineWidthTransMultiplier",1);
+        }
+
         float stepLengthMin;
         float stepLengthMax;
         float maxLength;

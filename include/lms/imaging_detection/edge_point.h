@@ -1,11 +1,12 @@
-#ifndef IMAGE_EDGE_POINT
+#ifndef IMAGE_EDGE_POINT_H
 
-#define IMAGE_EDGE_POINT
+#define IMAGE_EDGE_POINT_H
 
 #include <math.h>
 #include <lms/imaging/draw_debug.h>
 #include "lms/deprecated.h"
 #include "lms/math/vertex.h"
+#include "lms/type/module_config.h"
 namespace lms{
 namespace imaging{
 namespace find{
@@ -16,6 +17,17 @@ public:
 
     struct EdgePointParam{
         EdgePointParam():x(0),y(0),target(nullptr),searchLength(0),searchAngle(0),searchType(EdgeType::PLANE),sobelThreshold(0),gaussBuffer(nullptr),verify(false),preferVerify(false){
+        }
+
+        virtual void fromConfig(const lms::type::ModuleConfig *config){
+            searchAngle = config->get<float>("searchAngle",0);
+            searchLength = config->get<float>("searchLength",30);
+            x = config->get<float>("x",180);
+            y = config->get<float>("y",120);
+            sobelThreshold = config->get<float>("sobelThreshold",150);
+            verify = config->get<bool>("verify",true);
+            preferVerify = config->get<bool>("preferVerify",false);
+            //TODO searchType = config->get<EdgeType>("searchType",EdgeType::PLANE);
         }
 
         int x;
