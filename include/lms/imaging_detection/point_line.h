@@ -21,6 +21,9 @@ public:
         const Image *target;
         void addParam(const LinePoint::LinePointParam &param){
             target = param.target;
+            if(target == nullptr){
+                std::cout << "point-line: target is NULL! "<<std::endl;
+            }
             m_params.push_back(param);
         }
         void clearParam() {
