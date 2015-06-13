@@ -13,6 +13,11 @@ namespace find{
 class PointLine:public LineBase{
 public:
     struct PointLineParam{
+        /**
+         * @brief validPoint return true if the point is valid and should be added
+         */
+        std::function<bool(lms::imaging::find::LinePoint& DRAWDEBUG_PARAM)> validPoint;
+
 
     private:
         std::vector<LinePoint::LinePointParam> m_params;

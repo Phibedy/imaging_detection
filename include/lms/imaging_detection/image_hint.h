@@ -8,6 +8,7 @@ namespace imaging{
 namespace find{
 
 class ImageHintBase{
+    //TODO das ImageObject als sharedPtr hier rein!
 
     bool m_processed;
 protected:
@@ -62,6 +63,7 @@ public:
     }
 
     void clear(){
+        //TODO wo die hints löschen? -> shared pointer!
         hints.clear();
     }
 

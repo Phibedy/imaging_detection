@@ -73,6 +73,9 @@ private:
 
 public:
     void setSearchParam(const EdgePointParam &searchParam);
+    EdgePointParam &searchParam(){
+        return m_searchParam;
+    }
 
     /**
      * @brief Start searching for an edge.

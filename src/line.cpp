@@ -151,16 +151,17 @@ void Line::extend(bool direction DRAWDEBUG){
             //get angle between last two points
             EdgePoint *top;
             EdgePoint *bot;
-            if(direction){
-                top = &m_points[m_points.size()-1].low_high;
-                bot = &m_points[m_points.size()-2].low_high;
-            }else{
-                top = &m_points[1].low_high;
-                bot = &m_points[0].low_high;
+            if(!m_LineParam.fixedSearchAngle){
+                if(direction){
+                    top = &m_points[m_points.size()-1].low_high;
+                    bot = &m_points[m_points.size()-2].low_high;
+                }else{
+                    top = &m_points[1].low_high;
+                    bot = &m_points[0].low_high;
+                }
+                searchNormalAngle = atan2(top->y - bot->y,top->x-bot->x);
+                searchNormalAngle -= M_PI_2l;
             }
-            searchNormalAngle = atan2(top->y - bot->y,top->x-bot->x);
-            //TODO "-" only works because the low_high edge is on the left!
-            searchNormalAngle -= M_PI_2l;
         }
 
         if(direction){
@@ -181,9 +182,8 @@ void Line::extend(bool direction DRAWDEBUG){
             LinePoint::LinePointParam param = m_LineParam;
             param.x = pixel.x;
             param.y = pixel.y;
-            param.searchLength = m_LineParam.lineWidthMax*m_LineParam.lineWidthTransMultiplier;
+            param.searchLength = 2*m_LineParam.lineWidthMax*m_LineParam.lineWidthTransMultiplier;
             param.searchAngle = searchNormalAngle;
-
 
             if(findPoint(searchPoint,param DRAWDEBUG_ARG)){
                 found = true;

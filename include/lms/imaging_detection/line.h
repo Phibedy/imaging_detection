@@ -23,8 +23,9 @@ public:
             maxLength = config->get<float>("maxLength",300);
             approxEdge = config->get<bool>("approxEdge",false);
             lineWidthTransMultiplier = config->get<float>("lineWidthTransMultiplier",1);
+            fixedSearchAngle = config->get<bool>("fixedSearchAngle",false);
         }
-
+        bool fixedSearchAngle;
         float stepLengthMin;
         float stepLengthMax;
         float maxLength;
