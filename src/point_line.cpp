@@ -32,7 +32,6 @@ bool PointLine::find(DRAWDEBUG_PARAM_N){
             if(m_pointLineParam.validPoint){
                 if(m_pointLineParam.validPoint(lp DRAWDEBUG_ARG)){
                     points().push_back(lp);
-                    std::cout << "ADDING POINT!"<<std::endl;
                 }
             }else{
                 points().push_back(lp);
