@@ -9,9 +9,10 @@ namespace imaging{
 namespace find{
 
 
-class LinePoint {
+class LinePoint: public ImageObject {
 
 public:
+    static constexpr int TYPE = 2;
 
     struct LinePointParam:public EdgePoint::EdgePointParam{
     LinePointParam():lineWidthMin(0),lineWidthMax(0),useSobel(false),edge(false){
@@ -48,6 +49,7 @@ public:
     float getAngle();
     float getSlope();
     float distance();
+    int getType() const override;
 
 
 private:

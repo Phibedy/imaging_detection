@@ -97,7 +97,9 @@ LinePoint::LinePointParam& LinePoint::param(){
 const LinePoint::LinePointParam& LinePoint::param() const{
     return m_LinePointParam;
 }
-
+int LinePoint::getType() const{
+    return LinePoint::TYPE;
+}
 } //namepsace find
 } //namespace imaging
 } //namespace lms

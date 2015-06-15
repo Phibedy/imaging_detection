@@ -15,6 +15,8 @@ protected:
     bool m_success;
 
 public:
+    virtual int getHintType() const = 0;
+
     virtual const lms::imaging::Image* getTarget()const = 0;
     std::string name;
     virtual ~ImageHintBase(){
@@ -49,6 +51,10 @@ public:
 
     const lms::imaging::Image* getTarget() const override{
         return parameter.target;
+    }
+
+    int getHintType() const{
+        return imageObject.getType();
     }
 
 };

@@ -14,6 +14,7 @@ set (HEADERS
     "include/lms/imaging_detection/splitted_line.h"
     "include/lms/imaging_detection/lineBase.h"
     "include/lms/imaging_detection/point_line.h"
+    "include/lms/imaging_detection/image_object.h"
 )
 
 include_directories("include")

@@ -12,6 +12,7 @@ namespace find{
 
 class Line:public LineBase{
 public:
+    static constexpr int TYPE = 100;
     struct LineParam:public LinePoint::LinePointParam{
         LineParam():stepLengthMin(0),stepLengthMax(0),maxLength(INFINITY),approxEdge(false),lineWidthTransMultiplier(2),validPoint(nullptr){
         }
@@ -48,6 +49,7 @@ public:
     bool findPoint(LinePoint &pointToFind,LinePoint::LinePointParam linePointParam DRAWDEBUG_PARAM);
 
     void setParam(const LineParam &lineParam);
+    int getType() const override;
 protected:
 
     void extend(bool direction DRAWDEBUG);

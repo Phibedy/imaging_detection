@@ -7,6 +7,7 @@
 #include "lms/deprecated.h"
 #include "lms/math/vertex.h"
 #include "lms/type/module_config.h"
+#include "image_object.h"
 namespace lms{
 namespace imaging{
 namespace find{
@@ -18,8 +19,9 @@ namespace find{
  * The sobel angle is computed for every point along the search line to
  * find an adge.
  */
-class EdgePoint: public lms::math::vertex2f {
+class EdgePoint: public lms::math::vertex2f,public ImageObject {
 public:
+    static constexpr int TYPE = 0;
     enum class EdgeType {LOW_HIGH, HIGH_LOW, PLANE};
 
     struct EdgePointParam{
@@ -93,7 +95,12 @@ public:
      */
     float sobelTangent();
     float sobelNormal();
+    /**
+     * @brief type
+     * @return the type of the EdgePoint
+     */
     EdgeType type();
+    int getType() const override;
 };
 
 } //namepsace find

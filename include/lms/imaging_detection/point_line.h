@@ -12,6 +12,7 @@ namespace find{
 
 class PointLine:public LineBase{
 public:
+    static constexpr int TYPE = 101;
     struct PointLineParam{
         /**
          * @brief validPoint return true if the point is valid and should be added
@@ -45,6 +46,7 @@ public:
     bool findPoint(LinePoint &pointToFind,LinePoint::LinePointParam linePointParam DRAWDEBUG_PARAM);
 
     void setParam(const PointLineParam &param);
+    int getType() const override;
 protected:
     PointLineParam m_pointLineParam;
 };

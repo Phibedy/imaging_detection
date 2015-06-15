@@ -5,7 +5,8 @@
 namespace lms{
 namespace imaging{
 namespace find{
-class SplittedLine{
+class SplittedLine: public ImageObject{
+    static constexpr int TYPE = 102;
     struct SplittedLineParam:public Line::LineParam{
         SplittedLineParam():distanceBetween(0),lineMinLength(0),lineMaxLength(0){
 
@@ -28,6 +29,7 @@ public:
     void setParam(const SplittedLineParam &param);
     const std::vector<Line>& lines() const;
 
+    int getType() const override;
 };
 
 }

@@ -4,13 +4,16 @@
 #include <lms/imaging_detection/line_point.h>
 #include <deque>
 #include <lms/imaging/draw_debug.h>
+#include "image_object.h"
 #include <functional>
 namespace lms{
 namespace imaging{
 namespace find{
 
-class LineBase{
+class LineBase: public ImageObject{
 public:
+
+    typedef float parameterType;
     virtual bool find(DRAWDEBUG_PARAM_N) = 0;
     virtual bool findPoint(LinePoint &pointToFind,LinePoint::LinePointParam linePointParam DRAWDEBUG_PARAM) = 0;
 

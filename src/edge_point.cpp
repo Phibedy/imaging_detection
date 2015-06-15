@@ -109,6 +109,10 @@ EdgePoint::EdgeType EdgePoint::type(){
     return m_type;
 }
 
+int EdgePoint::getType() const{
+    return EdgePoint::TYPE;
+}
+
 } //namepsace find
 } //namespace imaging
 } //namespace lms

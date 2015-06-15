@@ -210,7 +210,9 @@ void Line::extend(bool direction DRAWDEBUG){
         }
     }
 }
-
+int Line::getType() const{
+    return Line::TYPE;
+}
 } //namepsace find
 } //namespace imaging
 } //namespace lms

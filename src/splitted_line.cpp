@@ -77,6 +77,9 @@ void SplittedLine::setParam(const SplittedLineParam &lineParam){
 const std::vector<Line>& SplittedLine::lines() const{
     return m_lines;
 }
+int SplittedLine::getType() const{
+    return SplittedLine::TYPE;
+}
 }
 }
 }

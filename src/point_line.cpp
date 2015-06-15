@@ -40,8 +40,9 @@ bool PointLine::find(DRAWDEBUG_PARAM_N){
         }
     }
     return points().size() > 0;
+}int PointLine::getType() const{
+    return PointLine::TYPE;
 }
-
 } //namepsace find
 } //namespace imaging
 } //namespace lms
