@@ -1,1 +1,10 @@
 # shared headers
+#Set the precompiler define :D
+#TODO im cmake variable übergeben und dann das passende setzen
+if(DRAWDEBUG)
+    MESSAGE("ENABLING DRAW DEBUG!")
+    add_definitions(-DIMAGING_DRAW_DEBUG=1)
+else()
+    add_definitions(-DIMAGING_DRAW_DEBUG=0)
+    MESSAGE("DISABLING DRAW DEBUG!")
+endif(DRAWDEBUG)

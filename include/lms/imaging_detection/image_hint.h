@@ -2,6 +2,7 @@
 #define IMAGE_HINT_H
 #include <string>
 #include "lms/imaging/draw_debug.h"
+#include "lms/imaging/image.h"
 #include <vector>
 namespace lms{
 namespace imaging{

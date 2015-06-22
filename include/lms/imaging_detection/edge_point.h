@@ -4,6 +4,7 @@
 #include <cmath>
 
 #include "lms/imaging/draw_debug.h"
+#include "lms/imaging/image.h"
 #include "lms/deprecated.h"
 #include "lms/math/vertex.h"
 #include "lms/type/module_config.h"
