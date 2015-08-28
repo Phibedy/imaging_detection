@@ -1,4 +1,4 @@
-set ( SOURCES 
+set ( SOURCES
     "src/edge_point.cpp"
     "src/line.cpp"
     "src/line_point.cpp"
@@ -20,4 +20,4 @@ set (HEADERS
 include_directories("include")
 
 add_library (imaging_detection SHARED ${SOURCES} ${HEADERS})
-target_link_libraries (imaging_detection PRIVATE lms imaging math_lib)
+target_link_libraries (imaging_detection PRIVATE lmscore imaging math_lib)
