@@ -42,7 +42,7 @@ bool SplittedLine::find(DRAWDEBUG_PARAM_N){
         lineParam.x = top.x +m_param.distanceBetween*cos(angle);
         //- because of coord-sys
         lineParam.y = top.y +m_param.distanceBetween*sin(angle);
-        lineParam.searchAngle = angle +M_PI_2l;
+        lineParam.searchAngle = angle +M_PI_2;
         findCount++;
         //TODO in config
         if(findCount > 3){

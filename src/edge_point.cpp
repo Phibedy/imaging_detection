@@ -57,10 +57,10 @@ bool EdgePoint::find(DRAWDEBUG_PARAM_N){
                 m_sobelNormal = atan2(m_sobelY,m_sobelX);
                 m_sobelTangent = m_sobelNormal;
                 //TODO doesnt care about rotation-count of the searchAngle % PI
-                if(-M_PI_2l <m_searchParam.searchAngle && m_searchParam.searchAngle < M_PI_2l){
-                    m_sobelTangent-=M_PI_2l;
+                if(-M_PI_2 <m_searchParam.searchAngle && m_searchParam.searchAngle < M_PI_2){
+                    m_sobelTangent-=M_PI_2;
                 }else{
-                    m_sobelTangent+=M_PI_2l;
+                    m_sobelTangent+=M_PI_2;
                 }
                 this->x =_x;
                 this->y =_y;

@@ -160,14 +160,14 @@ void Line::extend(bool direction DRAWDEBUG){
                     bot = &m_points[0].low_high;
                 }
                 searchNormalAngle = atan2(top->y - bot->y,top->x-bot->x);
-                searchNormalAngle -= M_PI_2l;
+                searchNormalAngle -= M_PI_2;
             }
         }
 
         if(direction){
-            searchTangentAngle = searchNormalAngle+M_PI_2l;
+            searchTangentAngle = searchNormalAngle+M_PI_2;
         }else{
-            searchTangentAngle = searchNormalAngle-M_PI_2l;
+            searchTangentAngle = searchNormalAngle-M_PI_2;
         }
         //move the point along the tangent of the line and afterwards move it from the line so the point isn't already on the line
         searchStepX = cos(searchTangentAngle)*currentStepLength-m_LineParam.lineWidthTransMultiplier*m_LineParam.lineWidthMax*cos(searchNormalAngle);
