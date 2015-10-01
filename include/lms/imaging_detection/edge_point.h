@@ -31,7 +31,7 @@ public:
             gaussBuffer(nullptr), verify(false), preferVerify(false) {
         }
 
-        virtual void fromConfig(const lms::type::ModuleConfig *config){
+        virtual void fromConfig(const lms::ModuleConfig *config){
             searchAngle = config->get<float>("searchAngle",0);
             searchLength = config->get<float>("searchLength",30);
             x = config->get<float>("x",180);

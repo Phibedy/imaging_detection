@@ -17,7 +17,7 @@ public:
     struct LinePointParam:public EdgePoint::EdgePointParam{
     LinePointParam():lineWidthMin(0),lineWidthMax(0),useSobel(false),edge(false){
     }
-    virtual void fromConfig(const lms::type::ModuleConfig *config){
+    virtual void fromConfig(const lms::ModuleConfig *config){
         EdgePointParam::fromConfig(config);
         lineWidthMax = config->get<float>("lineWidthMax",10);
         lineWidthMin = config->get<float>("lineWidthMin",1);
