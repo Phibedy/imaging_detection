@@ -64,6 +64,8 @@ bool EdgePoint::find(DRAWDEBUG_PARAM_N){
                 }
                 this->x =_x;
                 this->y =_y;
+
+                //TODO check if the sobel-angle is in the threshold
                 found = true;
                 //stop the bresenham
                 return false;
@@ -77,7 +79,7 @@ bool EdgePoint::find(DRAWDEBUG_PARAM_N){
 
 EdgePoint::EdgeType EdgePoint::setType() {
     float x2 = cos(m_searchParam.searchAngle);
-    float y2 = -sin(m_searchParam.searchAngle);
+    float y2 = -sin(m_searchParam.searchAngle); //- wegen dem umgedrehten Koordinatensystem
     float scalar = sobelX()*x2+sobelY()*y2;
     if(scalar > 0){
         m_type = EdgeType::LOW_HIGH;
