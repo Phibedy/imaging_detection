@@ -41,14 +41,29 @@ bool LinePoint::find(DRAWDEBUG_PARAM_N){
     param.searchType = EdgePoint::EdgeType::HIGH_LOW;
     param.x = low_high.x;
     param.y = low_high.y;
+    //TODO use the sobel angle?
     //TODO: Maybe do some error checking on the sobelAngle?
-    param.searchAngle = low_high.sobelNormal();
+    //param.searchAngle = low_high.sobelNormal();
+    /*
+    std::cout << "#######################"<<std::endl;
+    std::cout <<"vals: " << low_high.sobelX() << " , " <<low_high.sobelY() << " angle: " <<low_high.sobelNormal() << std::endl;
+    std::cout << "gausbox:"<<low_high.x -2 << " , " << low_high.y-2<<std::endl;
+    for(int y = low_high.y-2;y <= low_high.y +2;y++){
+        for(int x = low_high.x -2;x <= low_high.x +2;x++){
+            std::cout << std::to_string(*(param.gaussBuffer->data()+param.gaussBuffer->width()*y + x ))<< " , ";
+        }
+        std::cout << std::endl;
+    }
+
+    std::cout<<"LOW_HIGH: "<<low_high.sobelX()<<" , " << low_high.sobelY()<<std::endl;
+    */
+    DRAWLINE(low_high.x,low_high.y,low_high.x-100*low_high.sobelX(),low_high.y-100*low_high.sobelY(),255,255,0);
     //TODO we could reduce the search-length
     //param.searchLength = ?
 
     //draw the tangent/normal of the sobel
-    //DRAWLINE(low_high.x,low_high.y,low_high.x*10*cos(low_high.sobelNormal()),low_high.y*10*sin(low_high.sobelNormal()),255,255,0);
-    //DRAWLINE(low_high.x,low_high.y,low_high.x*10*cos(low_high.sobelTangent()),low_high.y*10*sin(low_high.sobelTangent()),0,255,255);
+    //DRAWLINE(low_high.x,low_high.y,low_high.x+100*cos(low_high.sobelNormal()),low_high.y+100*sin(low_high.sobelNormal()),255,255,0);
+    //DRAWLINE(low_high.x,low_high.y,low_high.x+100*cos(low_high.sobelTangent()),low_high.y+100*sin(low_high.sobelTangent()),0,255,255);
 
     //TODO: Don't know why that doesn't work well! Sobel values are quite bad!
     bool found  = false;

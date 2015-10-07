@@ -36,15 +36,34 @@ bool EdgePoint::find(DRAWDEBUG_PARAM_N){
         //draw debug point
         DRAWPOINT(_x,_y,0,0,255);
         //gauss surrounding
+
+        int xMin = _x-2;
+        int xMax = _x+2;
+        int yMin = _y-2;
+        int yMax = _y+2;
         /*
          * TODO that could be optimized as the next pixel will be inside the gaussed rectangle!
          * That's why we don't need to gauss a rectangle. Gaussing 3 to 5 pixel instead of 9 would ne enough
          */
-        op::gaussBox(*m_searchParam.target,*m_searchParam.gaussBuffer,_x-1,_y-1,_x+1,_y+1);
+        op::gaussBox(*m_searchParam.target,*m_searchParam.gaussBuffer,xMin,yMin,xMax,yMax);
         //for 5x5 sobel
         //sobel pxl
-        m_sobelX = op::sobelX(_x,_y,*m_searchParam.gaussBuffer);
+        /*
+        std::cout<< "MATTTTTTTTTTTTTTT: "<<std::endl;
+        for(int y = yMin;y <= yMax;y++){
+            for(int x = xMin;x <= xMax;x++){
+                std::cout << std::to_string(*(m_searchParam.gaussBuffer->data()+m_searchParam.gaussBuffer->width()*y + x ))<< " , ";
+            }
+            std::cout << std::endl;
+        }
+        */
+        //m_sobelX = op::imageOperator(*m_searchParam.gaussBuffer,_x,_y,&op::KERNEL_SOBEL_5_X[0][0],5,5);
+        //m_sobelY = op::imageOperator(*m_searchParam.gaussBuffer,_x,_y,&op::KERNEL_SOBEL_5_Y[0][0],5,5);
+        //m_searchParam.sobelThreshold = 1000;
+        m_sobelX = -op::sobelX(_x,_y,*m_searchParam.gaussBuffer);
         m_sobelY = op::sobelY(_x,_y,*m_searchParam.gaussBuffer);
+        //TODO
+        m_searchParam.sobelThreshold = 100;
         //check if gradient of sobel is big enough
         if(pow(m_sobelX,2)+pow(m_sobelY,2) > pow(m_searchParam.sobelThreshold,2)){
             //found an edge
@@ -79,8 +98,11 @@ bool EdgePoint::find(DRAWDEBUG_PARAM_N){
 
 EdgePoint::EdgeType EdgePoint::setType() {
     float x2 = cos(m_searchParam.searchAngle);
-    float y2 = -sin(m_searchParam.searchAngle); //- wegen dem umgedrehten Koordinatensystem
-    float scalar = sobelX()*x2+sobelY()*y2;
+    float y2 = -sin(m_searchParam.searchAngle); //- wegen nach unten zeigender y-Achse
+    float scalar = -sobelX()*x2+sobelY()*y2;
+
+    //std::cout << "SOBEL-VAL"<<pow(pow(m_sobelX,2)+pow(m_sobelY,2),0.5)<< " x,y: " <<sobelX() << " , "<<sobelY() <<std::endl;
+    //std::cout <<"scalar: "<<scalar <<std::endl;
     if(scalar > 0){
         m_type = EdgeType::LOW_HIGH;
     }else if(scalar < 0){

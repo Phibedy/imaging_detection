@@ -46,6 +46,9 @@ public:
         int y;
         const Image *target;
         float searchLength;
+        /**
+         * @brief searchAngle in rad, don't forget that y is pointing downwards!
+         */
         float searchAngle;
         EdgeType searchType;
         int sobelThreshold;
@@ -62,7 +65,14 @@ public:
 
 private:
     EdgePointParam m_searchParam;
+    /**
+     * @brief m_sobelX < 0 if the pixels on the left are darker
+     */
     int m_sobelX;
+
+    /**
+     * @brief m_sobelY < 0 if the pixels on the top are darker
+     */
     int m_sobelY;
     float m_sobelNormal;
     float m_sobelTangent;
