@@ -115,6 +115,24 @@ const LinePoint::LinePointParam& LinePoint::param() const{
 int LinePoint::getType() const{
     return LinePoint::TYPE;
 }
+
+
+int LinePoint::getX() const{
+    if(param().edge){
+        return low_high.x;
+    }else{
+        return (low_high.x + high_low.x)/2;
+    }
+}
+int LinePoint::getY() const{
+    if(param().edge){
+        return low_high.y;
+    }else{
+        return (low_high.y + high_low.y)/2;
+    }
+}
+
+
 } //namepsace find
 } //namespace imaging
 } //namespace lms

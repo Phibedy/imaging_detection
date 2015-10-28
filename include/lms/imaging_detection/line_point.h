@@ -51,6 +51,9 @@ public:
     float distance();
     int getType() const override;
 
+    int getX() const;
+    int getY() const;
+
 
 private:
     LinePointParam m_LinePointParam;

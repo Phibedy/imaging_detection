@@ -5,6 +5,7 @@ set ( SOURCES
     "src/splitted_line.cpp"
     "src/lineBase.cpp"
     "src/point_line.cpp"
+    "src/street_crossing.cpp"
 )
 set (HEADERS
     "include/lms/imaging_detection/edge_point.h"
@@ -15,6 +16,7 @@ set (HEADERS
     "include/lms/imaging_detection/lineBase.h"
     "include/lms/imaging_detection/point_line.h"
     "include/lms/imaging_detection/image_object.h"
+    "include/lms/imaging_detection/street_crossing.h"
 )
 
 include_directories("include")

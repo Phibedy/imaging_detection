@@ -95,7 +95,7 @@ public:
      * @return true if an edge of the specified type and the minimum threshold
      * is found, otherwise false
      */
-    bool find(DRAWDEBUG_PARAM_N);
+    bool find(DRAWDEBUG_PARAM_N) override;
     bool find(const EdgePointParam &searchParam DRAWDEBUG_PARAM);
     int sobelX();
     int sobelY();
