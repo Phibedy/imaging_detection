@@ -13,7 +13,18 @@ namespace find {
  * used to detect crossing given in the CaroloCup, specific code!
  */
 class StreetCrossing:public ImageObject{
+    int m_x;
+    int m_y;
 public:
+
+    bool blocked;
+
+    int x() const {
+        return m_x;
+    }
+    int y() const {
+        return m_y;
+    }
 
     struct StreetCrossingParam:public LinePoint::LinePointParam{
         //In world coordinates

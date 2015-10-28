@@ -76,6 +76,11 @@ bool StreetCrossing::find(DRAWDEBUG_PARAM_N){
 
                 if(oppositeStopLineFound && rightCrossingLineFound){
                     //store Position
+                    m_x = leftStartLinePoint.getX();
+                    m_y = leftStartLinePoint.getY();
+
+                    //TODO check if the crossing is blocked
+                    blocked = false;
                     return true;
                 }
 
