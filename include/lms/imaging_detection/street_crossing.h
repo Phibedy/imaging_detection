@@ -33,7 +33,7 @@ public:
 
     typedef StreetCrossingParam parameterType;
 
-    static constexpr int TYPE = 10; //TODO
+    static constexpr int TYPE = 101;
     int getType() const override;
 
     bool find(DRAWDEBUG_PARAM_N) override;

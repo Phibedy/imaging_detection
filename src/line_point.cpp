@@ -57,7 +57,7 @@ bool LinePoint::find(DRAWDEBUG_PARAM_N){
 
     std::cout<<"LOW_HIGH: "<<low_high.sobelX()<<" , " << low_high.sobelY()<<std::endl;
     */
-    DRAWLINE(low_high.x,low_high.y,low_high.x-100*low_high.sobelX(),low_high.y-100*low_high.sobelY(),255,255,0);
+    //DRAWLINE(low_high.x,low_high.y,low_high.x-100*low_high.sobelX(),low_high.y-100*low_high.sobelY(),255,255,0);
     //TODO we could reduce the search-length
     //param.searchLength = ?
 

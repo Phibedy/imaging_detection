@@ -18,7 +18,7 @@ public:
      * @return true if an edge of the specified type and the minimum threshold
      * is found, otherwise false
      */
-    virtual bool find(DRAWDEBUG_PARAM_N);
+    virtual bool find(DRAWDEBUG_PARAM_N) = 0;
 };
 }
 }

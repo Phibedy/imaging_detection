@@ -6,6 +6,7 @@ set ( SOURCES
     "src/lineBase.cpp"
     "src/point_line.cpp"
     "src/street_crossing.cpp"
+    "src/street_obstacle.cpp"
 )
 set (HEADERS
     "include/lms/imaging_detection/edge_point.h"
@@ -17,6 +18,8 @@ set (HEADERS
     "include/lms/imaging_detection/point_line.h"
     "include/lms/imaging_detection/image_object.h"
     "include/lms/imaging_detection/street_crossing.h"
+    "include/lms/imaging_detection/street_obstacle.h"
+    "include/lms/imaging_detection/street_utils.h"
 )
 
 include_directories("include")

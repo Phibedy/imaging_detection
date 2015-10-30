@@ -29,6 +29,9 @@ public:
         bool fixedSearchAngle;
         float stepLengthMin;
         float stepLengthMax;
+        /**
+         * @brief maxLength length in one extend-direction
+         */
         float maxLength;
         bool approxEdge;
         /**
