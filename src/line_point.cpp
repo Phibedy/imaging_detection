@@ -5,7 +5,7 @@
 
 namespace lms{
 namespace imaging{
-namespace find{
+namespace detection{
 
 
 

@@ -6,7 +6,7 @@
 
 namespace lms{
 namespace imaging{
-namespace find{
+namespace detection{
 
 
 class LinePoint: public ImageObject {

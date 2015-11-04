@@ -4,7 +4,7 @@
 #include <vector>
 namespace lms{
 namespace imaging{
-namespace find{
+namespace detection{
 class SplittedLine: public ImageObject{
     static constexpr int TYPE = 102;
     struct SplittedLineParam:public Line::LineParam{

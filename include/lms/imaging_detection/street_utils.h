@@ -5,7 +5,7 @@
 #include "lms/imaging/warp.h"
 namespace lms {
 namespace imaging {
-namespace find {
+namespace detection {
 /**
  * @brief vecToLinePointParam
  * @param start

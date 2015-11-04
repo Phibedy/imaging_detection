@@ -3,12 +3,12 @@
 
 #include <lms/imaging_detection/line_point.h>
 #include <deque>
-#include "lineBase.h"
+#include "line_base.h"
 #include <lms/imaging/draw_debug.h>
 #include <functional>
 namespace lms{
 namespace imaging{
-namespace find{
+namespace detection{
 
 class PointLine:public LineBase{
 public:
@@ -17,7 +17,7 @@ public:
         /**
          * @brief validPoint return true if the point is valid and should be added
          */
-        std::function<bool(lms::imaging::find::LinePoint& DRAWDEBUG_PARAM)> validPoint;
+        std::function<bool(lms::imaging::detection::LinePoint& DRAWDEBUG_PARAM)> validPoint;
 
 
     private:

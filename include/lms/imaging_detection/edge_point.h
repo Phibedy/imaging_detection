@@ -9,9 +9,10 @@
 #include "lms/math/vertex.h"
 #include "lms/type/module_config.h"
 #include "image_object.h"
+#include "lms/imaging_detection/sobel_array.h"
 namespace lms{
 namespace imaging{
-namespace find{
+namespace detection{
 /**
  * @brief Find a Low-High edge, High-Low edge or plane, beginning from a
  * starting point and moving to a target point specified by angle and distance
@@ -25,21 +26,20 @@ public:
     static constexpr int TYPE = 0;
     enum class EdgeType {LOW_HIGH, HIGH_LOW, PLANE};
 
-    struct EdgePointParam{
+    struct EdgePointParam:public SobelArray::SobelArrayParam{
         EdgePointParam() : x(0), y(0), target(nullptr), searchLength(0),
             searchAngle(0), searchType(EdgeType::PLANE), sobelThreshold(0),
-            gaussBuffer(nullptr), verify(false), preferVerify(false) {
+            verify(false), preferVerify(false) {
         }
 
+#include "lms/imaging/image_factory.h"
         virtual void fromConfig(const lms::ModuleConfig *config){
-            searchAngle = config->get<float>("searchAngle",0);
-            searchLength = config->get<float>("searchLength",30);
-            x = config->get<float>("x",180);
-            y = config->get<float>("y",120);
+            SobelArrayParam::fromConfig(config);
             sobelThreshold = config->get<float>("sobelThreshold",150);
             verify = config->get<bool>("verify",true);
             preferVerify = config->get<bool>("preferVerify",false);
             //TODO searchType = config->get<EdgeType>("searchType",EdgeType::PLANE);
+
         }
 
         int x;
@@ -52,7 +52,6 @@ public:
         float searchAngle;
         EdgeType searchType;
         int sobelThreshold;
-        Image *gaussBuffer;
         /**
          * @brief verify if true find will try to find it with the old values
          * if the new one don't find anything

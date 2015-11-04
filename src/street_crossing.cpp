@@ -5,7 +5,7 @@
 
 namespace lms {
 namespace imaging {
-namespace find {
+namespace detection {
 
 bool StreetCrossing::find(StreetCrossing::StreetCrossingParam param DRAWDEBUG_PARAM){
     searchParam = param;

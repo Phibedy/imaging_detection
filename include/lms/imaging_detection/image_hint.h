@@ -6,7 +6,7 @@
 #include <vector>
 namespace lms{
 namespace imaging{
-namespace find{
+namespace detection{
 
 class ImageHintBase{
     //TODO das ImageObject als sharedPtr hier rein!

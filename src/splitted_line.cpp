@@ -1,7 +1,7 @@
 #include "lms/imaging_detection/splitted_line.h"
 namespace lms{
 namespace imaging{
-namespace find{
+namespace detection{
 bool SplittedLine::find(SplittedLineParam &lineParam DRAWDEBUG_PARAM){
     setParam(lineParam);
     return find(DRAWDEBUG_ARG_N);

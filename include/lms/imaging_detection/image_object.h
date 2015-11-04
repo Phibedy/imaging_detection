@@ -4,7 +4,7 @@
 #include "lms/imaging/draw_debug.h"
 namespace lms {
 namespace imaging {
-namespace find {
+namespace detection {
 class ImageObject{
 public:
     /**

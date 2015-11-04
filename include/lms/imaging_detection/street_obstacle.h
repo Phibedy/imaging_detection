@@ -8,7 +8,7 @@
 
 namespace lms {
 namespace imaging {
-namespace find {
+namespace detection {
 /**
  * @brief The StreetCrossing class
  * used to detect crossing given in the CaroloCup, specific code!

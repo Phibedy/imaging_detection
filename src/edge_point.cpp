@@ -11,7 +11,7 @@
 
 namespace lms {
 namespace imaging {
-namespace find {
+namespace detection {
 
 void EdgePoint::setSearchParam(const EdgePointParam &searchParam){
     m_searchParam = searchParam;

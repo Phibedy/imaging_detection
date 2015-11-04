@@ -1,4 +1,4 @@
-#include "lms/imaging_detection/lineBase.h"
+#include "lms/imaging_detection/line_base.h"
 #include "lms/imaging_detection/line_point.h"
 #include <lms/imaging/graphics.h>
 #include <cmath>
@@ -9,7 +9,7 @@
 #include "lms/imaging_detection/edge_point.h"
 namespace lms{
 namespace imaging{
-namespace find{
+namespace detection{
 
 float LineBase::length(){
     float res = 0;

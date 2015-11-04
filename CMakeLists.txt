@@ -3,10 +3,11 @@ set ( SOURCES
     "src/line.cpp"
     "src/line_point.cpp"
     "src/splitted_line.cpp"
-    "src/lineBase.cpp"
+    "src/line_base.cpp"
     "src/point_line.cpp"
     "src/street_crossing.cpp"
     "src/street_obstacle.cpp"
+    "src/sobel_array.cpp"
 )
 set (HEADERS
     "include/lms/imaging_detection/edge_point.h"
@@ -14,7 +15,8 @@ set (HEADERS
     "include/lms/imaging_detection/line_point.h"
     "include/lms/imaging_detection/image_hint.h"
     "include/lms/imaging_detection/splitted_line.h"
-    "include/lms/imaging_detection/lineBase.h"
+    "include/lms/imaging_detection/line_base.h"
+    "include/lms/imaging_detection/sobel_array.h"
     "include/lms/imaging_detection/point_line.h"
     "include/lms/imaging_detection/image_object.h"
     "include/lms/imaging_detection/street_crossing.h"

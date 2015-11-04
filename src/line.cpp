@@ -9,7 +9,7 @@
 #include "lms/imaging_detection/edge_point.h"
 namespace lms{
 namespace imaging{
-namespace find{
+namespace detection{
 
 bool Line::findPoint(LinePoint &pointToFind,LinePoint::LinePointParam linePointParam DRAWDEBUG_PARAM){
     //find first point

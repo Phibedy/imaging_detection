@@ -8,7 +8,7 @@
 #include <functional>
 namespace lms{
 namespace imaging{
-namespace find{
+namespace detection{
 
 class LineBase: public ImageObject{
 public:
