@@ -23,6 +23,14 @@ bool EdgePoint::find(const EdgePointParam &searchParam DRAWDEBUG_PARAM){
 }
 
 bool EdgePoint::find(DRAWDEBUG_PARAM_N){
+    if(m_searchParam.findMax){
+        return findMaxALongLine(DRAWDEBUG_ARG_N);
+    }else{
+        return findAlongLine(DRAWDEBUG_ARG_N);
+    }
+}
+
+bool EdgePoint::findAlongLine(DRAWDEBUG_PARAM_N){
     //pointer so it can be set in the bresenhamLine-function
     bool found= false;
     //end-points for the bresenham-function
@@ -68,7 +76,7 @@ bool EdgePoint::find(DRAWDEBUG_PARAM_N){
         if(pow(m_sobelX,2)+pow(m_sobelY,2) > pow(m_searchParam.sobelThreshold,2)){
             //found an edge
             //set the type
-            setType();
+            calculateType();
             if(type() == m_searchParam.searchType){
                 //found an edge you were looking for :)
                 //calculate the angle
@@ -96,7 +104,41 @@ bool EdgePoint::find(DRAWDEBUG_PARAM_N){
     return found;
 }
 
-EdgePoint::EdgeType EdgePoint::setType() {
+
+bool EdgePoint::findMaxALongLine(DRAWDEBUG_PARAM_N){
+    SobelArray sa;
+    float maxSobel = 0;
+    int maxIndex = -1;
+    if(!sa.find(m_searchParam DRAWDEBUG_ARG)){
+        //Should never happen
+        return false;
+    }
+    for(uint i = 0; i < sa.sobelVals.size();i++ ){
+        SobelArray::SobelVal sv = sa.sobelVals[i];
+        //check if it is smaller then the threshold
+        float currentSobel = pow(pow(sv.sobelX,2)+pow(sv.sobelY,2),0.5);
+        if(currentSobel < m_searchParam.sobelThreshold || currentSobel < maxSobel){
+            continue;
+        }
+        //found new maxSobel, have to check the type
+        m_sobelX = sv.sobelX;
+        m_sobelY = sv.sobelY;
+        if(m_searchParam.searchType !=calculateType()){
+            //wrong type
+            continue;
+        }
+        maxIndex = i;
+    }
+    if(maxIndex == -1)
+        return false;
+    //set pos etc.
+    x = sa.sobelVals[maxIndex].xPos;
+    y = sa.sobelVals[maxIndex].yPos;
+    return true;
+
+}
+
+EdgePoint::EdgeType EdgePoint::calculateType() {
     float x2 = cos(m_searchParam.searchAngle);
     float y2 = -sin(m_searchParam.searchAngle); //- wegen nach unten zeigender y-Achse
     float scalar = -sobelX()*x2+sobelY()*y2;

@@ -10,6 +10,7 @@
 #include "lms/type/module_config.h"
 #include "image_object.h"
 #include "lms/imaging_detection/sobel_array.h"
+#include "lms/imaging/image_factory.h"
 namespace lms{
 namespace imaging{
 namespace detection{
@@ -29,15 +30,15 @@ public:
     struct EdgePointParam:public SobelArray::SobelArrayParam{
         EdgePointParam() : x(0), y(0), target(nullptr), searchLength(0),
             searchAngle(0), searchType(EdgeType::PLANE), sobelThreshold(0),
-            verify(false), preferVerify(false) {
+            verify(false), preferVerify(false),findMax(false) {
         }
 
-#include "lms/imaging/image_factory.h"
         virtual void fromConfig(const lms::ModuleConfig *config){
             SobelArrayParam::fromConfig(config);
             sobelThreshold = config->get<float>("sobelThreshold",150);
             verify = config->get<bool>("verify",true);
             preferVerify = config->get<bool>("preferVerify",false);
+            findMax = config->get<bool>("findMax",false);
             //TODO searchType = config->get<EdgeType>("searchType",EdgeType::PLANE);
 
         }
@@ -58,6 +59,7 @@ public:
          */
         bool verify;
         bool preferVerify;
+        bool findMax;
     };
 
     typedef EdgePointParam parameterType;
@@ -81,7 +83,7 @@ private:
      * @brief setType "calculates" the type high_low/low_high edge
      * @return the found type
      */
-    EdgePoint::EdgeType setType();
+    EdgePoint::EdgeType calculateType();
 
 public:
     void setSearchParam(const EdgePointParam &searchParam);
@@ -105,6 +107,16 @@ public:
      */
     float sobelTangent();
     float sobelNormal();
+    /**
+     * @brief findAlongLine starts at x,y and tries to find a sobel that is greater then the threshold
+     * @return true if an edge of the specified type was found
+     */
+    bool findAlongLine(DRAWDEBUG_PARAM_N);
+    /**
+     * @brief findAlongLine starts at x,y and tries to find a sobel that is greater then the threshold and is a local max/min
+     * @return true if an edge of the specified type was found
+     */
+    bool findMaxALongLine(DRAWDEBUG_PARAM_N);
     /**
      * @brief type
      * @return the type of the EdgePoint

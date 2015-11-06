@@ -54,6 +54,16 @@ public:
     int getX() const;
     int getY() const;
 
+    /**
+     * @brief findAlongLine starts at x,y and tries to find a sobel that is greater then the threshold
+     * @return true if an edge of the specified type was found
+     */
+    bool findAlongLine(DRAWDEBUG_PARAM_N);
+    /**
+     * @brief findAlongLine starts at x,y and tries to find a sobel that is greater then the threshold and is a local max/min
+     * @return true if an edge of the specified type was found
+     */
+    bool findMaxALongLine(DRAWDEBUG_PARAM_N);
 
 private:
     LinePointParam m_LinePointParam;

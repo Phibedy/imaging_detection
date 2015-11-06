@@ -19,6 +19,42 @@ bool LinePoint::find(const LinePointParam &param DRAWDEBUG_PARAM){
 }
 
 bool LinePoint::find(DRAWDEBUG_PARAM_N){
+    if(m_LinePointParam.findMax){
+        return findMaxALongLine(DRAWDEBUG_ARG_N);
+    }else{
+        return findAlongLine(DRAWDEBUG_ARG_N);
+    }
+}
+
+bool LinePoint::findMaxALongLine(DRAWDEBUG_PARAM_N){
+    SobelArray sa;
+    float maxSobel = 0;
+    int maxIndex = -1;
+    if(!sa.find(m_LinePointParam DRAWDEBUG_ARG)){
+        //Should never happen
+        return false;
+    }
+    for(uint i = 0; i < sa.sobelVals.size();i++ ){
+        SobelArray::SobelVal sv = sa.sobelVals[i];
+        //check if it is smaller then the threshold
+        float currentSobel = pow(pow(sv.sobelX,2)+pow(sv.sobelY,2),0.5);
+        if(currentSobel < m_LinePointParam.sobelThreshold){
+            continue;
+        }
+        //TODO find min and max
+
+
+        maxIndex = i;
+    }
+    if(maxIndex == -1)
+        return false;
+    //TODO set vals
+    return true;
+}
+
+
+bool LinePoint::findAlongLine(DRAWDEBUG_PARAM_N){
+
     //try to find first point, if it fails return as no LinePoint can be found
     EdgePoint::EdgePointParam param = m_LinePointParam;
     //the first searchPoint is already set in the params, just need to set the EdgeType

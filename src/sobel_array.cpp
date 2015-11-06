@@ -44,6 +44,10 @@ bool SobelArray::find(const SobelArrayParam &param DRAWDEBUG_PARAM){
     setParam(param);
     return find(DRAWDEBUG_ARG_N);
 }
+
+int SobelArray::getType() const{
+    return SobelArray::TYPE;
+}
 } //namepsace find
 } //namespace imaging
 } //namespace lms

@@ -46,18 +46,18 @@ public:
         }
 
     };
+    std::vector<SobelVal> sobelVals; //Not sure if it should be public
 private:
     SobelArrayParam m_searchParam;
-    std::vector<SobelVal> sobelVals;
 
 public:
-
     typedef SobelArrayParam parameterType;
     bool find(DRAWDEBUG_PARAM_N) override;
     bool find(const SobelArrayParam &searchParam DRAWDEBUG_PARAM);
     void setParam(const SobelArrayParam &param){
         m_searchParam = param;
     }
+    int getType() const;
 
 };
 
