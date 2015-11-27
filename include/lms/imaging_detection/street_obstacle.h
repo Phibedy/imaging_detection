@@ -27,10 +27,7 @@ public:
     } searchParam;
 
     typedef StreetObstacleParam parameterType;
-    /**
-     * @brief edge of the found obstacle
-     */
-    Line edgeLine;
+    std::vector<Line> results;
 
     static constexpr int TYPE = 100;
     int getType() const override;
