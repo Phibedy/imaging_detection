@@ -16,13 +16,24 @@ namespace detection {
 class StreetObstacle:public ImageObject{
 public:
     struct StreetObstacleParam:public Line::LineParam{
+        bool obstacleLeft; //if the obstacle is on the left of the middleLine
         //In world coordinates
         lms::math::polyLine2f middleLine;
+        float targetThres; //difference between target color and black
+        float minDistanceBetweenSearchPoints; //distance between two points (tangetial)
+        int numerOfSegmentsOrth;
         /**
          * @brief minPointCount number of points that has to be found to be a valid obstacle, by default 1
          */
         int minPointCount;
         StreetObstacleParam():minPointCount(1){
+        }
+
+        virtual void fromConfig(const lms::ModuleConfig *config){
+            LineParam::fromConfig(config);
+            targetThres = config->get<float>("targetThres",100);
+            numerOfSegmentsOrth = config->get<int>("numerOfSegmentsOrth",4);
+            minDistanceBetweenSearchPoints = config->get<float>("minDistanceBetweenSearchPoints",0.2);
         }
     } searchParam;
 
