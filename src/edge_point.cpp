@@ -70,8 +70,7 @@ bool EdgePoint::findAlongLine(DRAWDEBUG_PARAM_N){
         //m_searchParam.sobelThreshold = 1000;
         m_sobelX = -op::sobelX(_x,_y,*m_searchParam.gaussBuffer);
         m_sobelY = op::sobelY(_x,_y,*m_searchParam.gaussBuffer);
-        //TODO
-        m_searchParam.sobelThreshold = 100;
+
         //check if gradient of sobel is big enough
         if(pow(m_sobelX,2)+pow(m_sobelY,2) > pow(m_searchParam.sobelThreshold,2)){
             //found an edge

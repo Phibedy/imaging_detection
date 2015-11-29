@@ -34,6 +34,7 @@ public:
             targetThres = config->get<float>("targetThres",100);
             numerOfSegmentsOrth = config->get<int>("numerOfSegmentsOrth",4);
             minDistanceBetweenSearchPoints = config->get<float>("minDistanceBetweenSearchPoints",0.2);
+            minPointCount = config->get<int>("minPointCount",1);
         }
     } searchParam;
 
