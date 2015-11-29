@@ -22,6 +22,7 @@ public:
         float targetThres; //difference between target color and black
         float minDistanceBetweenSearchPoints; //distance between two points (tangetial)
         int numerOfSegmentsOrth;
+        int boxDepthSearchLength;
         /**
          * @brief minPointCount number of points that has to be found to be a valid obstacle, by default 1
          */
@@ -35,6 +36,7 @@ public:
             numerOfSegmentsOrth = config->get<int>("numerOfSegmentsOrth",4);
             minDistanceBetweenSearchPoints = config->get<float>("minDistanceBetweenSearchPoints",0.2);
             minPointCount = config->get<int>("minPointCount",1);
+            boxDepthSearchLength = config->get<int>("boxDepthSearchLength",10);
         }
     } searchParam;
 

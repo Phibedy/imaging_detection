@@ -19,17 +19,33 @@ bool StreetObstacle::find(DRAWDEBUG_PARAM_N){
     searchParam.preferVerify = false;
     searchParam.verify  =false;
     searchParam.fixedSearchAngle = true;
+    //std::function<bool(lms::imaging::detection::LinePoint& DRAWDEBUG_PARAM)>
+    searchParam.validPoint = [this](lms::imaging::detection::LinePoint &lp DRAWDEBUG_PARAM)->bool{
+        lms::imaging::detection::EdgePoint check = lp.low_high;
+        check.searchParam() = searchParam;
+        check.searchParam().x = check.x;
+        check.searchParam().y = check.y;
+        //20 noch in eine Config packen oder irgendwas anderes tolles tun
+        check.searchParam().searchLength = searchParam.boxDepthSearchLength;
+        check.searchParam().searchType = lms::imaging::detection::EdgePoint::EdgeType::HIGH_LOW;
+        bool found = check.find(DRAWDEBUG_ARG_N);
+        return !found;
+    };
 
     //Trying to find white spaces
-    //TODO it might fail if a searchpoint is on the egde of an obstacle
-    //TODO would be much faster using binary search
+    //It might fail if a searchpoint is on the egde of an obstacle (Fixed using 3 points)
+    //Would be faster using binary search, not sure if it's smart
     //get mid with given distance between points
     lms::math::polyLine2f newMid = searchParam.middleLine.getWithDistanceBetweenPoints(searchParam.minDistanceBetweenSearchPoints);
     std::vector<lms::math::polyLine2f> lines;
     //get searchPoints
     for(int i = 0; i < searchParam.numerOfSegmentsOrth; i++){
         float p = ((float)i+1)/(searchParam.numerOfSegmentsOrth+1);
-        lines.push_back(newMid.moveOrthogonal(streetWidth*p));
+        if(searchParam.obstacleLeft){
+            lines.push_back(newMid.moveOrthogonal(-streetWidth*p));
+        }else{
+            lines.push_back(newMid.moveOrthogonal(streetWidth*p));
+        }
     }
     //get color of all searchPoints
     for(int i = 0; i < (int)lines.size(); i++){
