@@ -4,6 +4,7 @@
 #include "image_object.h"
 #include "lms/math/polyline.h"
 #include "line_point.h"
+#include "line.h"
 
 namespace lms {
 namespace imaging {
@@ -15,6 +16,7 @@ namespace detection {
 class StreetCrossing:public ImageObject{
     int m_x;
     int m_y;
+
 public:
 
     bool blocked;
@@ -26,7 +28,7 @@ public:
         return m_y;
     }
 
-    struct StreetCrossingParam:public LinePoint::LinePointParam{
+    struct StreetCrossingParam:public Line::LineParam{
         //In world coordinates
         lms::math::polyLine2f middleLine;
     } searchParam;

@@ -1,5 +1,6 @@
 #include "lms/imaging_detection/street_crossing.h"
 #include "lms/imaging_detection/line_point.h"
+#include "lms/imaging_detection/line.h"
 #include "lms/math/vertex.h"
 #include "lms/imaging_detection/street_utils.h"
 
@@ -20,44 +21,50 @@ bool StreetCrossing::find(DRAWDEBUG_PARAM_N){
     float tangetSearchOffet = 0.2;
     //try to find Stop-line
     LinePoint::LinePointParam lpp;
-    LinePoint lp;
+    Line::LineParam linePar;
+    linePar = searchParam;
+    // ToDo find valid settings
+    lpp = searchParam;
 
+    Line lRight;
+    Line lLeft;
 
     //Not smart at all but it may work :)
-    for(int i = 1; i < (int)searchParam.middleLine.points().size(); i++){
-
+    for(int i = 1; i < (int)searchParam.middleLine.points().size(); i++) {
         vertex2f top = searchParam.middleLine.points()[i];
         vertex2f bot = searchParam.middleLine.points()[i-1];
         vertex2f tangentDir = top-bot;
         tangentDir = tangentDir.normalize();
         //create hint
-        vertex2f norm;
-        norm.x = -tangentDir.y;
-        norm.y = tangentDir.x;
+        vertex2f norm = tangentDir.rotateClockwise90deg();
+
         vertex2f targetBot = bot+norm*streetWidth/2;
         vertex2f targetTop = top+norm*streetWidth/2;
 
-        vecToLinePointParam(targetBot,targetTop,lpp);
-        if(lp.find(lpp DRAWDEBUG_ARG)){
-            vertex2i tmp(lp.getX(),lp.getY());
+        vecToLineParam(targetBot, targetTop, top, linePar);
+        if(lRight.find(linePar DRAWDEBUG_ARG)) {
+            if(lRight.points().size() < 3)
+                break;
+
             vertex2f foundStopLine;
+            vertex2i tmp = lRight.getAveragePoint();
             lms::imaging::C2V(&tmp,&foundStopLine);
 
             //check if it's not a start line
             targetBot = foundStopLine-tangentDir*tangetSearchOffet-norm*streetWidth;
             targetTop = foundStopLine+tangentDir*tangetSearchOffet-norm*streetWidth;
-            vecToLinePointParam(targetBot,targetTop,lpp);
-            LinePoint leftStartLinePoint;
-            if(!leftStartLinePoint.find(lpp DRAWDEBUG_ARG)){
-                //it's not a Start-Line
+            vecToLineParam(targetBot,targetTop,top,linePar);
 
+            // search start line
+            if(!lLeft.find(linePar DRAWDEBUG_ARG)){
+                //it's not a Start-Line
                 LinePoint rightCrossingLine;
-                LinePoint oppositeStopLine;
+                Line oppositeStopLine;
                 //get the opposite stop lane
                 targetBot = foundStopLine + tangentDir*streetWidth*1.5 - norm*streetWidth;
                 targetTop = targetBot + tangentDir *streetWidth;
-                vecToLinePointParam(targetBot,targetTop,lpp);
-                bool oppositeStopLineFound = oppositeStopLine.find(lpp DRAWDEBUG_ARG);
+                vecToLineParam(targetBot,targetTop, top, linePar);
+                bool oppositeStopLineFound = oppositeStopLine.find(linePar DRAWDEBUG_ARG);
 
                 //get the crossing right lane
                 targetBot = foundStopLine-tangentDir*tangetSearchOffet+norm*streetWidth;
@@ -67,8 +74,8 @@ bool StreetCrossing::find(DRAWDEBUG_PARAM_N){
 
                 if(oppositeStopLineFound && rightCrossingLineFound){
                     //store Position
-                    m_x = leftStartLinePoint.getX();
-                    m_y = leftStartLinePoint.getY();
+                    m_x = tmp.x;
+                    m_y = tmp.y;
 
                     //TODO check if the crossing is blocked
                     blocked = false;

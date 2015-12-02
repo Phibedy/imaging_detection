@@ -11,6 +11,16 @@ namespace lms{
 namespace imaging{
 namespace detection{
 
+lms::math::vertex2i Line::getAveragePoint() {
+    lms::math::vertex2i m(0,0);
+    for(LinePoint& lp : points()) {
+         lms::math::vertex2i p(lp.getX(), lp.getY());
+         m = m + p;
+    }
+    m /= points().size();
+    return m;
+}
+
 bool Line::findPoint(LinePoint &pointToFind,LinePoint::LinePointParam linePointParam DRAWDEBUG_PARAM){
     //find first point
     //Draw red cross
