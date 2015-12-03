@@ -84,7 +84,6 @@ bool StreetObstacle::find(DRAWDEBUG_PARAM_N){
                 searchParam.searchAngle = (topImage-botImage).angle();
                 if(edgeLine.find(searchParam DRAWDEBUG_ARG) && (int)edgeLine.points().size() > searchParam.minPointCount){
                     //found an edge that might be a obstacle
-                    std::cout <<"FOUND OBSTACLE: "<<&results<<std::endl;
                     results.push_back(edgeLine);
                     break; //only find one obstacle per line
                 }
