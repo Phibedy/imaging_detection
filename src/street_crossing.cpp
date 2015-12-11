@@ -14,6 +14,8 @@ bool StreetCrossing::find(StreetCrossing::StreetCrossingParam param DRAWDEBUG_PA
 }
 
 bool StreetCrossing::find(DRAWDEBUG_PARAM_N){
+    foundStartLine = false;
+    foundCrossing = false;
     using lms::math::vertex2f;
     using lms::math::vertex2i;
 
@@ -25,9 +27,6 @@ bool StreetCrossing::find(DRAWDEBUG_PARAM_N){
     linePar = searchParam;
     // ToDo find valid settings
     lpp = searchParam;
-
-    Line lRight;
-    Line lLeft;
 
     //Not smart at all but it may work :)
     for(int i = 1; i < (int)searchParam.middleLine.points().size(); i++) {
@@ -42,12 +41,12 @@ bool StreetCrossing::find(DRAWDEBUG_PARAM_N){
         vertex2f targetTop = top+norm*streetWidth/2;
 
         vecToLineParam(targetBot, targetTop, top, linePar);
-        if(lRight.find(linePar DRAWDEBUG_ARG)) {
-            if(lRight.points().size() < 3)
+        if(stopLine.find(linePar DRAWDEBUG_ARG)) {
+            if(stopLine.points().size() < 3)
                 break;
 
             vertex2f foundStopLine;
-            vertex2i tmp = lRight.getAveragePoint();
+            vertex2i tmp = stopLine.getAveragePoint();
             lms::imaging::C2V(&tmp,&foundStopLine);
 
             //check if it's not a start line
@@ -56,7 +55,7 @@ bool StreetCrossing::find(DRAWDEBUG_PARAM_N){
             vecToLineParam(targetBot,targetTop,top,linePar);
 
             // search start line
-            if(!lLeft.find(linePar DRAWDEBUG_ARG)){
+            if(!leftPartStartLine.find(linePar DRAWDEBUG_ARG)){
                 //it's not a Start-Line
                 LinePoint rightCrossingLine;
                 Line oppositeStopLine;
@@ -76,6 +75,8 @@ bool StreetCrossing::find(DRAWDEBUG_PARAM_N){
                     //store Position
                     m_x = tmp.x;
                     m_y = tmp.y;
+                    //we found the crossing <3
+                    foundCrossing = true;
 
                     //TODO check if the crossing is blocked
                     blocked = false;
@@ -84,12 +85,48 @@ bool StreetCrossing::find(DRAWDEBUG_PARAM_N){
                     targetBot = foundStopLine+tangentDir*streetWidth*1.5;
                     targetTop = targetBot + norm*streetWidth*1.5;
                     vecToLinePointParam(targetBot,targetTop,lpp);
-
                     return true;
                 }
 
-            }else{
+            }else{{
+                    //it's not a Start-Line
+                    LinePoint rightCrossingLine;
+                    Line oppositeStopLine;
+                    //get the opposite stop lane
+                    targetBot = foundStopLine + tangentDir*streetWidth*1.5 - norm*streetWidth;
+                    targetTop = targetBot + tangentDir *streetWidth;
+                    vecToLineParam(targetBot,targetTop, top, linePar);
+                    bool oppositeStopLineFound = oppositeStopLine.find(linePar DRAWDEBUG_ARG);
+
+                    //get the crossing right lane
+                    targetBot = foundStopLine-tangentDir*tangetSearchOffet+norm*streetWidth;
+                    targetTop = foundStopLine+tangentDir*tangetSearchOffet+norm*streetWidth;
+                    vecToLinePointParam(targetBot,targetTop,lpp);
+                    bool rightCrossingLineFound = rightCrossingLine.find(lpp DRAWDEBUG_ARG);
+
+                    if(oppositeStopLineFound && rightCrossingLineFound){
+                        //store Position
+                        m_x = tmp.x;
+                        m_y = tmp.y;
+
+                        //TODO check if the crossing is blocked
+                        blocked = false;
+
+                        //TODO Write street_obstacle class to find obstacles along a given path
+                        targetBot = foundStopLine+tangentDir*streetWidth*1.5;
+                        targetTop = targetBot + norm*streetWidth*1.5;
+                        vecToLinePointParam(targetBot,targetTop,lpp);
+
+                        return true;
+                    }
+
+                }
                 //TODO we found a Start-line!
+                tmp = stopLine.getAveragePoint()+leftPartStartLine.getAveragePoint();
+                tmp /= 2;
+                m_x = tmp.x;
+                m_y = tmp.y;
+                foundStartLine = true;
                 return false;
             }
         }

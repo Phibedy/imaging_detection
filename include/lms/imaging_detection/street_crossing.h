@@ -18,6 +18,10 @@ class StreetCrossing:public ImageObject{
     int m_y;
 
 public:
+    Line stopLine;
+    Line leftPartStartLine;
+    bool foundStartLine;
+    bool foundCrossing;
 
     bool blocked;
 
