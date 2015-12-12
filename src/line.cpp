@@ -180,9 +180,8 @@ void Line::extend(bool direction DRAWDEBUG){
             searchTangentAngle = searchNormalAngle-M_PI_2;
         }
         //move the point along the tangent of the line and afterwards move it from the line so the point isn't already on the line
-        searchStepX = cos(searchTangentAngle)*currentStepLength-m_LineParam.lineWidthTransMultiplier*m_LineParam.lineWidthMax*cos(searchNormalAngle);
+        searchStepX = cos(searchTangentAngle)*currentStepLength -m_LineParam.lineWidthTransMultiplier*m_LineParam.lineWidthMax*cos(searchNormalAngle);
         searchStepY = sin(searchTangentAngle)*currentStepLength-m_LineParam.lineWidthTransMultiplier*m_LineParam.lineWidthMax*sin(searchNormalAngle);
-
         //try to find a new point
         //calculate new searchPoint
         if(m_LineParam.target->inside(pixel.x+searchStepX,pixel.y+searchStepY)){

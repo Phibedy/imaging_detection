@@ -35,10 +35,14 @@ public:
 
         virtual void fromConfig(const lms::ModuleConfig *config){
             SobelArrayParam::fromConfig(config);
-            sobelThreshold = config->get<float>("sobelThreshold",150);
-            verify = config->get<bool>("verify",true);
-            preferVerify = config->get<bool>("preferVerify",false);
-            findMax = config->get<bool>("findMax",false);
+            if(config->hasKey("sobelThreshold"))
+                sobelThreshold = config->get<float>("sobelThreshold",150);
+            if(config->hasKey("verify"))
+                verify = config->get<bool>("verify",true);
+            if(config->hasKey("preferVerify"))
+                preferVerify = config->get<bool>("preferVerify",false);
+            if(config->hasKey("findMax"))
+                findMax = config->get<bool>("findMax",false);
             //TODO searchType = config->get<EdgeType>("searchType",EdgeType::PLANE);
 
         }

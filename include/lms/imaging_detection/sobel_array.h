@@ -39,10 +39,14 @@ public:
         Image *gaussBuffer;
 
         virtual void fromConfig(const lms::ModuleConfig *config){
-            searchAngle = config->get<float>("searchAngle",0);
-            searchLength = config->get<float>("searchLength",30);
-            x = config->get<float>("x",180);
-            y = config->get<float>("y",120);
+            if(config->hasKey("searchAngle"))
+                searchAngle = config->get<float>("searchAngle",0);
+            if(config->hasKey("searchLength"))
+                searchLength = config->get<float>("searchLength",30);
+            if(config->hasKey("x"))
+                x = config->get<float>("x",180);
+            if(config->hasKey("y"))
+                y = config->get<float>("y",120);
         }
 
     };

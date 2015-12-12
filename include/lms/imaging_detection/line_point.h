@@ -19,10 +19,14 @@ public:
     }
     virtual void fromConfig(const lms::ModuleConfig *config){
         EdgePointParam::fromConfig(config);
-        lineWidthMax = config->get<float>("lineWidthMax",10);
-        lineWidthMin = config->get<float>("lineWidthMin",1);
-        edge = config->get<bool>("edge",false);
-        useSobel = config->get<bool>("useSobel",false);
+        if(config->hasKey("lineWidthMax"))
+            lineWidthMax = config->get<float>("lineWidthMax",10);
+        if(config->hasKey("lineWidthMin"))
+            lineWidthMin = config->get<float>("lineWidthMin",1);
+        if(config->hasKey("edge"))
+            edge = config->get<bool>("edge",false);
+        if(config->hasKey("useSobel"))
+            useSobel = config->get<bool>("useSobel",false);
     }
         float lineWidthMin;
         float lineWidthMax;

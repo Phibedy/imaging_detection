@@ -10,6 +10,7 @@ namespace detection {
 
 bool StreetCrossing::find(StreetCrossing::StreetCrossingParam param DRAWDEBUG_PARAM){
     searchParam = param;
+    searchParam.fixedSearchAngle = true;
     return find(DRAWDEBUG_ARG_N);
 }
 

@@ -19,12 +19,18 @@ public:
 
         virtual void fromConfig(const lms::ModuleConfig *config){
             LinePointParam::fromConfig(config);
-            stepLengthMax = config->get<float>("stepLengthMax",10);
-            stepLengthMin = config->get<float>("stepLengthMin",2);
-            maxLength = config->get<float>("maxLength",300);
-            approxEdge = config->get<bool>("approxEdge",false);
-            lineWidthTransMultiplier = config->get<float>("lineWidthTransMultiplier",1);
-            fixedSearchAngle = config->get<bool>("fixedSearchAngle",false);
+            if(config->hasKey("stepLengthMax"))
+                stepLengthMax = config->get<float>("stepLengthMax",10);
+            if(config->hasKey("stepLengthMin"))
+                stepLengthMin = config->get<float>("stepLengthMin",2);
+            if(config->hasKey("maxLength"))
+                maxLength = config->get<float>("maxLength",300);
+            if(config->hasKey("approxEdge"))
+                approxEdge = config->get<bool>("approxEdge",false);
+            if(config->hasKey("lineWidthTransMultiplier"))
+                lineWidthTransMultiplier = config->get<float>("lineWidthTransMultiplier",1);
+            if(config->hasKey("fixedSearchAngle"))
+                fixedSearchAngle = config->get<bool>("fixedSearchAngle",false);
         }
         bool fixedSearchAngle;
         float stepLengthMin;
