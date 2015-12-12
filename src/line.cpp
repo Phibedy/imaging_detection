@@ -210,7 +210,6 @@ void Line::extend(bool direction DRAWDEBUG){
             //found no point, decrease length
             //TODO add some better algo.
             currentStepLength *= 0.5;
-
             if(currentStepLength < m_LineParam.stepLengthMin){
                 //stop searching, no more points can be found on this line
                 //TODO return

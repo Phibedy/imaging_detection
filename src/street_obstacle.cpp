@@ -11,9 +11,7 @@ int StreetObstacle::getType() const{
 }
 
 bool StreetObstacle::find(DRAWDEBUG_PARAM_N){
-
     float streetWidth = 0.4; //TODO move to config
-
     //set search param for detecting edges
     searchParam.edge = true; //just in case someone forgot it
     searchParam.preferVerify = false;
@@ -110,7 +108,7 @@ bool StreetObstacle::find(DRAWDEBUG_PARAM_N){
             }
         }
     }
-    return false;
+    return results.size()>0;
 }
 
 bool StreetObstacle::find(StreetObstacle::StreetObstacleParam param DRAWDEBUG_PARAM){
