@@ -154,14 +154,14 @@ int LinePoint::getType() const{
 
 
 int LinePoint::getX() const{
-    if(param().edge){
+    if(param().edge){ //TODO check what type should be found
         return low_high.x;
     }else{
         return (low_high.x + high_low.x)/2;
     }
 }
 int LinePoint::getY() const{
-    if(param().edge){
+    if(param().edge){ //TODO check what type should be found
         return low_high.y;
     }else{
         return (low_high.y + high_low.y)/2;
