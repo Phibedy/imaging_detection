@@ -23,7 +23,7 @@ public:
     private:
         std::vector<LinePoint::LinePointParam> m_params;
     public:
-        //TODO hacky parameter that is needed for creating the debug image... (could be improved)
+        //parameter that is needed for creating the debug image... (could be improved)
         const Image *target;
         void addParam(const LinePoint::LinePointParam &param){
             target = param.target;
