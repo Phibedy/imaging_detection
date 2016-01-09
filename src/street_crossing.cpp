@@ -64,7 +64,7 @@ bool StreetCrossing::find(DRAWDEBUG_PARAM_N){
                 LinePoint rightCrossingLine;
                 Line oppositeStopLine;
                 //get the opposite stop lane
-                targetBot = foundStopLine + tangentDir*streetWidth*1.5 - norm*streetWidth;
+                targetBot = foundStopLine + tangentDir*streetWidth - norm*streetWidth;
                 targetTop = targetBot + tangentDir *streetWidth;
                 vecToLineParam(targetBot,targetTop, top, linePar);
                 bool oppositeStopLineFound = oppositeStopLine.find(linePar DRAWDEBUG_ARG);
@@ -83,7 +83,7 @@ bool StreetCrossing::find(DRAWDEBUG_PARAM_N){
                     foundCrossing = true;
 
                     //TODO check if the crossing is blocked
-                    blocked = false;
+                    blocked = true;
 
                     //TODO Write street_obstacle class to find obstacles along a given path
                     targetBot = foundStopLine+tangentDir*streetWidth*1.5;
@@ -92,39 +92,7 @@ bool StreetCrossing::find(DRAWDEBUG_PARAM_N){
                     return true;
                 }
 
-            }else{{
-                    //it's not a Start-Line
-                    LinePoint rightCrossingLine;
-                    Line oppositeStopLine;
-                    //get the opposite stop lane
-                    targetBot = foundStopLine + tangentDir*streetWidth*1.5 - norm*streetWidth;
-                    targetTop = targetBot + tangentDir *streetWidth;
-                    vecToLineParam(targetBot,targetTop, top, linePar);
-                    bool oppositeStopLineFound = oppositeStopLine.find(linePar DRAWDEBUG_ARG);
-
-                    //get the crossing right lane
-                    targetBot = foundStopLine-tangentDir*tangetSearchOffet+norm*streetWidth;
-                    targetTop = foundStopLine+tangentDir*tangetSearchOffet+norm*streetWidth;
-                    vecToLinePointParam(targetBot,targetTop,lpp);
-                    bool rightCrossingLineFound = rightCrossingLine.find(lpp DRAWDEBUG_ARG);
-
-                    if(oppositeStopLineFound && rightCrossingLineFound){
-                        //store Position
-                        m_x = tmp.x;
-                        m_y = tmp.y;
-
-                        //TODO check if the crossing is blocked
-                        blocked = false;
-
-                        //TODO Write street_obstacle class to find obstacles along a given path
-                        targetBot = foundStopLine+tangentDir*streetWidth*1.5;
-                        targetTop = targetBot + norm*streetWidth*1.5;
-                        vecToLinePointParam(targetBot,targetTop,lpp);
-
-                        return true;
-                    }
-
-                }
+            }else{
                 //TODO we found a Start-line!
                 tmp = stopLine.getAveragePoint()+leftPartStartLine.getAveragePoint();
                 tmp /= 2;
