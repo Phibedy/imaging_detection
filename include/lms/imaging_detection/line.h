@@ -60,7 +60,7 @@ public:
     void setParam(const LineParam &lineParam);
     int getType() const override;
 
-    lms::math::vertex2i getAveragePoint();
+    lms::math::vertex2i getAveragePoint() const;
 protected:
 
     void extend(bool direction DRAWDEBUG);

@@ -11,9 +11,12 @@ namespace lms{
 namespace imaging{
 namespace detection{
 
-lms::math::vertex2i Line::getAveragePoint() {
+lms::math::vertex2i Line::getAveragePoint() const{
+    if(points().size() == 0){
+        return lms::math::vertex2i(0,0);
+    }
     lms::math::vertex2i m(0,0);
-    for(LinePoint& lp : points()) {
+    for(const LinePoint& lp : points()) {
          lms::math::vertex2i p(lp.getX(), lp.getY());
          m = m + p;
     }
