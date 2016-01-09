@@ -16,6 +16,7 @@ namespace detection {
 class StreetCrossing:public ImageObject{
     int m_x;
     int m_y;
+    bool isBlocked(Line::LineParam lParam DRAWDEBUG_PARAM);
 
 public:
     Line stopLine;

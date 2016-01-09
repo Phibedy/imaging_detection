@@ -24,7 +24,6 @@ bool StreetCrossing::find(DRAWDEBUG_PARAM_N){
     float tangentStartLineOffset = 0.1;
     float tangentRightCrossingLineStart = 0.05;
     float tangentRightCrossingLineEnd = 0.15;
-    float tangetSearchOffet = 0.2;
     //try to find Stop-line
     LinePoint::LinePointParam lpp;
     Line::LineParam linePar;
@@ -82,8 +81,17 @@ bool StreetCrossing::find(DRAWDEBUG_PARAM_N){
                     //we found the crossing <3
                     foundCrossing = true;
 
-                    //TODO check if the crossing is blocked
-                    blocked = true;
+                    //check if the crossing is blocked
+                    targetBot = foundStopLine+tangentDir*0.5;
+                    targetTop = foundStopLine+tangentDir*0.5+norm*streetWidth;
+                    vecToLinePointParam(targetBot,targetTop,lpp);
+                    Line::LineParam obstacleLineParam = searchParam;
+                    obstacleLineParam.x = lpp.x;
+                    obstacleLineParam.y = lpp.y;
+                    obstacleLineParam.searchAngle = lpp.searchAngle;
+                    obstacleLineParam.searchLength = lpp.searchLength;
+                    blocked = isBlocked(obstacleLineParam DRAWDEBUG_ARG);
+
 
                     //TODO Write street_obstacle class to find obstacles along a given path
                     targetBot = foundStopLine+tangentDir*streetWidth*1.5;
@@ -104,6 +112,26 @@ bool StreetCrossing::find(DRAWDEBUG_PARAM_N){
         }
 
     }
+    return false;
+}
+
+bool StreetCrossing::isBlocked(Line::LineParam lParam DRAWDEBUG_PARAM){
+    lParam.edge = true;
+    lParam.preferVerify = false;
+    lParam.verify  =false;
+    lParam.fixedSearchAngle = true;
+    searchParam.validPoint = [lParam](lms::imaging::detection::LinePoint &lp DRAWDEBUG_PARAM)->bool{
+        lms::imaging::detection::EdgePoint check = lp.low_high;
+        check.searchParam().x = check.x;
+        check.searchParam().y = check.y;
+        check.searchParam().searchLength = 20;//TODO searchParam.boxDepthSearchLength;
+        check.searchParam().searchType = lms::imaging::detection::EdgePoint::EdgeType::HIGH_LOW;
+        bool found = check.find(DRAWDEBUG_ARG_N);
+        return !found;
+    };
+    Line obst;
+    if(obst.find(lParam DRAWDEBUG_ARG))
+        return obst.points().size() > 3;//TODO Not that smart
     return false;
 }
 

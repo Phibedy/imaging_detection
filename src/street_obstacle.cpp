@@ -23,7 +23,6 @@ bool StreetObstacle::find(DRAWDEBUG_PARAM_N){
         check.searchParam() = searchParam;
         check.searchParam().x = check.x;
         check.searchParam().y = check.y;
-        //20 noch in eine Config packen oder irgendwas anderes tolles tun
         check.searchParam().searchLength = searchParam.boxDepthSearchLength;
         check.searchParam().searchType = lms::imaging::detection::EdgePoint::EdgeType::HIGH_LOW;
         bool found = check.find(DRAWDEBUG_ARG_N);
