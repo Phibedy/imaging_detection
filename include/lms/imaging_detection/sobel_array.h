@@ -7,7 +7,7 @@
 #include "lms/imaging/image.h"
 #include "lms/deprecated.h"
 #include "lms/math/vertex.h"
-#include "lms/type/module_config.h"
+#include "lms/config.h"
 #include "lms/math/curve.h"
 #include "image_object.h"
 namespace lms{
@@ -38,7 +38,7 @@ public:
         float searchAngle;
         Image *gaussBuffer;
 
-        virtual void fromConfig(const lms::ModuleConfig *config){
+        virtual void fromConfig(const lms::Config *config){
             if(config->hasKey("searchAngle"))
                 searchAngle = config->get<float>("searchAngle",0);
             if(config->hasKey("searchLength"))

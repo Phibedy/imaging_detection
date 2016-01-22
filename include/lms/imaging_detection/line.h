@@ -17,7 +17,7 @@ public:
         LineParam():stepLengthMin(0),stepLengthMax(0),maxLength(INFINITY),approxEdge(false),lineWidthTransMultiplier(2),validPoint(nullptr){
         }
 
-        virtual void fromConfig(const lms::ModuleConfig *config){
+        virtual void fromConfig(const lms::Config *config){
             LinePointParam::fromConfig(config);
             if(config->hasKey("stepLengthMax"))
                 stepLengthMax = config->get<float>("stepLengthMax",10);

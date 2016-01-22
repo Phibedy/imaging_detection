@@ -7,7 +7,7 @@
 #include "lms/imaging/image.h"
 #include "lms/deprecated.h"
 #include "lms/math/vertex.h"
-#include "lms/type/module_config.h"
+#include "lms/config.h"
 #include "image_object.h"
 #include "lms/imaging_detection/sobel_array.h"
 #include "lms/imaging/image_factory.h"
@@ -33,7 +33,7 @@ public:
             verify(false), preferVerify(false),findMax(false) {
         }
 
-        virtual void fromConfig(const lms::ModuleConfig *config){
+        virtual void fromConfig(const lms::Config *config){
             SobelArrayParam::fromConfig(config);
             if(config->hasKey("sobelThreshold"))
                 sobelThreshold = config->get<float>("sobelThreshold",150);

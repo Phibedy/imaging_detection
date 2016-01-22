@@ -30,7 +30,7 @@ public:
         StreetObstacleParam():minPointCount(1){
         }
 
-        virtual void fromConfig(const lms::ModuleConfig *config){
+        virtual void fromConfig(const lms::Config *config){
             LineParam::fromConfig(config);
             targetThres = config->get<float>("targetThres",100);
             numerOfSegmentsOrth = config->get<int>("numerOfSegmentsOrth",4);
