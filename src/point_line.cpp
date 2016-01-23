@@ -27,7 +27,7 @@ void PointLine::setParam(const PointLineParam &param){
 bool PointLine::find(DRAWDEBUG_PARAM_N){
     LinePoint lp;
     points().clear();
-    for(const LinePoint::LinePointParam lparam:m_pointLineParam.params()){
+    for(const LinePoint::LinePointParam lparam:m_pointLineParam.params()){//TODO could be multithreaded
         if(findPoint(lp,lparam DRAWDEBUG_ARG)){
             if(m_pointLineParam.validPoint){
                 if(m_pointLineParam.validPoint(lp DRAWDEBUG_ARG)){
