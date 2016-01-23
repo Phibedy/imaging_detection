@@ -70,7 +70,6 @@ public:
     }
 
     void clear(){
-        //TODO wo die hints löschen? -> shared pointer!
         hints.clear();
     }
 
