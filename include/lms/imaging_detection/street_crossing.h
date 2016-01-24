@@ -36,6 +36,8 @@ public:
     struct StreetCrossingParam:public Line::LineParam{
         //In world coordinates
         lms::math::polyLine2f middleLine;
+        int boxDepthSearchLength;
+        StreetCrossingParam():boxDepthSearchLength(0){}
     } searchParam;
 
     typedef StreetCrossingParam parameterType;
