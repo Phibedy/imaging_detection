@@ -61,7 +61,6 @@ bool StreetCrossing::find(DRAWDEBUG_PARAM_N){
             if(!leftPartStartLine.find(linePar DRAWDEBUG_ARG)){
                 //it's not a Start-Line
                 LinePoint rightCrossingLine;
-                Line oppositeStopLine;
                 //get the opposite stop lane
                 targetBot = foundStopLine + tangentDir*streetWidth - norm*streetWidth;
                 targetTop = targetBot + tangentDir *streetWidth;

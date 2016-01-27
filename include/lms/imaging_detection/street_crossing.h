@@ -21,6 +21,7 @@ class StreetCrossing:public ImageObject{
 public:
     Line stopLine;
     Line leftPartStartLine;
+    Line oppositeStopLine;
     bool foundStartLine;
     bool foundCrossing;
 
