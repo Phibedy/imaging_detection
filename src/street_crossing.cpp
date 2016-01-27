@@ -120,18 +120,22 @@ bool StreetCrossing::isBlocked(Line::LineParam lParam DRAWDEBUG_PARAM){
     lParam.preferVerify = false;
     lParam.verify  =false;
     lParam.fixedSearchAngle = true;
-    searchParam.validPoint = [lParam,this](lms::imaging::detection::LinePoint &lp DRAWDEBUG_PARAM)->bool{
+    lParam.validPoint = [lParam,this](lms::imaging::detection::LinePoint &lp DRAWDEBUG_PARAM)->bool{
         lms::imaging::detection::EdgePoint check = lp.low_high;
         check.searchParam().x = check.x;
         check.searchParam().y = check.y;
         check.searchParam().searchLength = searchParam.boxDepthSearchLength;
         check.searchParam().searchType = lms::imaging::detection::EdgePoint::EdgeType::HIGH_LOW;
         bool found = check.find(DRAWDEBUG_ARG_N);
+        //std::cout<<"VALIDATE OBSTACLE IN CROSSING: "<<!found;
+
         return !found;
     };
     Line obst;
-    if(obst.find(lParam DRAWDEBUG_ARG))
-        return obst.points().size() > 3;//TODO Not that smart
+    if(obst.find(lParam DRAWDEBUG_ARG)){
+        //std::cout<<"POINTS FOUND: "<<obst.points().size()<<std::endl;
+        return (int)obst.points().size() >= searchParam.boxPointsNeeded;//TODO Not that smart
+    }
     return false;
 }
 

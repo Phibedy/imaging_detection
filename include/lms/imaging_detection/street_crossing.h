@@ -38,7 +38,8 @@ public:
         //In world coordinates
         lms::math::polyLine2f middleLine;
         int boxDepthSearchLength;
-        StreetCrossingParam():boxDepthSearchLength(0){}
+        int boxPointsNeeded;
+        StreetCrossingParam():boxDepthSearchLength(0),boxPointsNeeded(1){}
     } searchParam;
 
     typedef StreetCrossingParam parameterType;
