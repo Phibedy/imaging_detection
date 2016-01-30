@@ -23,12 +23,13 @@ bool StreetCrossing::find(DRAWDEBUG_PARAM_N){
 
     foundStartLine = false;
     foundCrossing = false;
+    oppositeStopLineFound = false;
     using lms::math::vertex2f;
     using lms::math::vertex2i;
 
     float streetWidth = 0.4;//width of one
     float tangentStartLineOffset = 0.1;
-    float tangentRightCrossingLineStart = 0.05;
+    float tangentRightCrossingLineStart = 0.15;
     float tangentRightCrossingLineEnd = 0.15;
     //try to find Stop-line
     LinePoint::LinePointParam lpp;
@@ -65,22 +66,22 @@ bool StreetCrossing::find(DRAWDEBUG_PARAM_N){
             tmp.x = stopLine.points().at(0).getX() +
                     0.5*(stopLine.points()[stopLine.points().size()-1].getX() - stopLine.points().at(0).getX());
             tmp.y = m*tmp.x + b;
+
             lms::imaging::C2V(&tmp,&foundStopLine);
 
             //check if it's not a start line
             targetBot = foundStopLine-tangentDir*tangentStartLineOffset-norm*streetWidth;
-            targetTop = foundStopLine+tangentDir*tangentStartLineOffset-norm*streetWidth;
+            targetTop = foundStopLine+tangentDir*2*tangentStartLineOffset-norm*streetWidth;
             vecToLineParam(targetBot,targetTop,top,linePar);
 
             // search start line
             if(!leftPartStartLine.find(linePar DRAWDEBUG_ARG)){
                 //it's not a Start-Line
-                LinePoint rightCrossingLine;
                 //get the opposite stop lane
                 targetBot = foundStopLine + tangentDir*streetWidth - norm*streetWidth;
                 targetTop = targetBot + tangentDir *streetWidth;
                 vecToLineParam(targetBot,targetTop, top, linePar);
-                bool oppositeStopLineFound = oppositeStopLine.find(linePar DRAWDEBUG_ARG);
+                oppositeStopLineFound = oppositeStopLine.find(linePar DRAWDEBUG_ARG);
 
                 //get the crossing right lane
                 targetBot = foundStopLine-tangentDir*tangentRightCrossingLineStart+norm*streetWidth;
@@ -88,8 +89,7 @@ bool StreetCrossing::find(DRAWDEBUG_PARAM_N){
                 vecToLinePointParam(targetBot,targetTop,lpp);
                 bool rightCrossingLineFound = rightCrossingLine.find(lpp DRAWDEBUG_ARG);
 
-                std::cout << oppositeStopLineFound << "," << rightCrossingLineFound << std::endl;
-                if(oppositeStopLineFound && rightCrossingLineFound){
+                if(rightCrossingLineFound){
                     //store Position
                     m_x = tmp.x;
                     m_y = tmp.y;

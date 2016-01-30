@@ -22,8 +22,10 @@ public:
     Line stopLine;
     Line leftPartStartLine;
     Line oppositeStopLine;
+    LinePoint rightCrossingLine;
     bool foundStartLine;
     bool foundCrossing;
+    bool oppositeStopLineFound;
 
     bool blocked;
 
