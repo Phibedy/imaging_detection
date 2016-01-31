@@ -28,7 +28,8 @@ bool LinePoint::find(DRAWDEBUG_PARAM_N){
 
 bool LinePoint::findMaxALongLine(DRAWDEBUG_PARAM_N){
     SobelArray sa;
-    float maxSobel = 0;
+   float maxSobel = 0;
+   (void)maxSobel;//TODO
     int maxIndex = -1;
     if(!sa.find(m_LinePointParam DRAWDEBUG_ARG)){
         //Should never happen

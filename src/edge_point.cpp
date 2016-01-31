@@ -41,6 +41,13 @@ bool EdgePoint::findAlongLine(DRAWDEBUG_PARAM_N){
         //check if points are inside the image
         if(_x < 0 || _x > m_searchParam.target->width() || _y < 0 || _y >m_searchParam.target->height())
             return false;
+        //check if the point is valid
+        if(m_searchParam.useBlackList){
+            if(m_searchParam.blackList.contains(_x,_y)){
+                return true;
+            }
+        }
+
         //draw debug point
         DRAWPOINT(_x,_y,0,0,255);
         //gauss surrounding

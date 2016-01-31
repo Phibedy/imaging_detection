@@ -32,11 +32,16 @@ public:
         int y;
         const Image *target;
         float searchLength;
+        bool useBlackList;
+        lms::math::Rect blackList;
         /**
          * @brief searchAngle in rad, don't forget that y is pointing downwards!
          */
         float searchAngle;
         Image *gaussBuffer;
+        SobelArrayParam():x(0),y(0),searchLength(0),useBlackList(false){
+
+        }
 
         virtual void fromConfig(const lms::Config *config){
             if(config->hasKey("searchAngle"))
@@ -47,6 +52,14 @@ public:
                 x = config->get<float>("x",180);
             if(config->hasKey("y"))
                 y = config->get<float>("y",120);
+            if(config->hasKey("useBlackList"))
+                useBlackList = config->get<bool>("useBlackList",false);
+            if(config->hasKey("blackList_x")){
+                blackList.x = config->get<float>("blackList_x");
+                blackList.y= config->get<float>("blackList_y");
+                blackList.width = config->get<float>("blackList_width");
+                blackList.height = config->get<float>("blackList_height");
+            }
         }
 
     };
