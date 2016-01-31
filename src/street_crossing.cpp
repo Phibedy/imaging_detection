@@ -19,8 +19,6 @@ bool StreetCrossing::find(StreetCrossing::StreetCrossingParam param DRAWDEBUG_PA
 }
 
 bool StreetCrossing::find(DRAWDEBUG_PARAM_N){
-    static int cnt = 0;
-
     foundStartLine = false;
     foundCrossing = false;
     oppositeStopLineFound = false;
@@ -55,17 +53,17 @@ bool StreetCrossing::find(DRAWDEBUG_PARAM_N){
             if(stopLine.points().size() < 3)
                 break;
 
-            saveLine(1, cnt);
-            double m,b;
-            lineFitRansac(m, b);
-            saveLine(2, cnt);
-            cnt++;
-
             vertex2f foundStopLine;
-            vertex2i tmp;//stopLine.getAveragePoint();
-            tmp.x = stopLine.points().at(0).getX() +
-                    0.5*(stopLine.points()[stopLine.points().size()-1].getX() - stopLine.points().at(0).getX());
-            tmp.y = m*tmp.x + b;
+            vertex2i tmp;
+            //trying to get one straight line
+            double m,b;
+            if(lineFitRansac(m, b)){
+                tmp.x = stopLine.points().at(0).getX() +
+                        0.5*(stopLine.points()[stopLine.points().size()-1].getX() - stopLine.points().at(0).getX());
+                tmp.y = m*tmp.x + b;
+            }else{
+                tmp=stopLine.getAveragePoint();
+            }
 
             lms::imaging::C2V(&tmp,&foundStopLine);
 
