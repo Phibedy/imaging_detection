@@ -53,6 +53,11 @@ public:
     bool find(StreetCrossing::StreetCrossingParam param DRAWDEBUG_PARAM);
 
 
+    bool lineFitRansac(double& m, double& b);
+    bool getRandomSample(int &idx1, int &idx2);
+    double computeDistance(const double& a, const double& b, const double& c, const LinePoint& p);
+    void saveLine(int i, int cnt);
+
 };
 
 

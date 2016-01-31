@@ -4,6 +4,10 @@
 #include "lms/math/vertex.h"
 #include "lms/imaging_detection/street_utils.h"
 
+#include <random>
+#include <algorithm>
+#include <iterator>
+
 namespace lms {
 namespace imaging {
 namespace detection {
@@ -15,6 +19,8 @@ bool StreetCrossing::find(StreetCrossing::StreetCrossingParam param DRAWDEBUG_PA
 }
 
 bool StreetCrossing::find(DRAWDEBUG_PARAM_N){
+    static int cnt = 0;
+
     foundStartLine = false;
     foundCrossing = false;
     oppositeStopLineFound = false;
@@ -49,10 +55,18 @@ bool StreetCrossing::find(DRAWDEBUG_PARAM_N){
             if(stopLine.points().size() < 3)
                 break;
 
+            saveLine(1, cnt);
+            double m,b;
+            lineFitRansac(m, b);
+            saveLine(2, cnt);
+            cnt++;
+
             vertex2f foundStopLine;
-            //TODO filter the average point in a better way
-            //average point is the middle of the stopline
-            vertex2i tmp = stopLine.getAveragePoint();
+            vertex2i tmp;//stopLine.getAveragePoint();
+            tmp.x = stopLine.points().at(0).getX() +
+                    0.5*(stopLine.points()[stopLine.points().size()-1].getX() - stopLine.points().at(0).getX());
+            tmp.y = m*tmp.x + b;
+
             lms::imaging::C2V(&tmp,&foundStopLine);
 
             //check if it's not a start line
@@ -146,6 +160,101 @@ int StreetCrossing::getType() const{
     return StreetCrossing::TYPE;
 }
 
+bool StreetCrossing::lineFitRansac(double& m, double& b)
+{
+    if(stopLine.points().size() <= 2)
+        return false;
+
+    int bestInliers = 0;
+    std::deque<LinePoint> inlierPoints;
+    std::deque<LinePoint> bestInlierPoints;
+
+    for(int i=0; i<100; i++)
+    {
+
+        int inliers = 0;
+        int idx1 = 0;
+        int idx2 = 0;
+
+        inlierPoints.clear();
+        if(getRandomSample(idx1, idx2))
+        {
+
+            LinePoint p1 = stopLine.points().at(idx1);
+            LinePoint p2 = stopLine.points().at(idx2);
+
+            double aTemp = p1.getY() - p2.getY();
+            double bTemp = p2.getX() - p1.getX();
+            double cTemp = p1.getX()*p2.getY() - p2.getX()*p1.getY();
+
+            for(const LinePoint& p : stopLine.points())
+            {
+                if(computeDistance(aTemp, bTemp, cTemp, p) < 4)
+                {
+                    inliers++;
+                    inlierPoints.push_back(p);
+                }
+            }
+
+            if(inliers > bestInliers)
+            {
+                m = -aTemp/bTemp;
+                b = -cTemp/bTemp;
+                bestInliers = inliers;
+                bestInlierPoints = inlierPoints;
+
+            }
+
+        }
+        else
+        {
+            m = 0;
+            b = 0;
+            return false;
+        }
+    }
+
+    stopLine.points() = bestInlierPoints;
+    return true;
+
+}
+
+bool StreetCrossing::getRandomSample(int& idx1, int& idx2)
+{
+    int loopCnt = 10;
+    idx1 = 0;
+    idx2 = 0;
+
+    while(idx1 == idx2)
+    {
+        idx1 = std::rand() % (int)(stopLine.points().size() );
+        idx2 = std::rand() % (int)(stopLine.points().size() );
+
+        loopCnt--;
+
+        if(loopCnt < 0)
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+double StreetCrossing::computeDistance(const double& a, const double& b, const double& c, const LinePoint& p)
+{
+    return fabs(a*static_cast<double>(p.getX()) + b*static_cast<double>(p.getY()) + c)/sqrt(pow(a,2) + pow(b,2));
+}
+
+void StreetCrossing::saveLine(int i, int cnt)
+{
+    std::ofstream myfile;
+    myfile.open("/home/steffi/Phoenix/log/" + std::to_string(i) + "_" + std::to_string(cnt) + ".csv" );
+    for (int i = 0; i < stopLine.points().size(); ++i)
+    {
+        myfile << stopLine.points().at(i).getX() << "," << stopLine.points().at(i).getY() << std::endl;
+    }
+    myfile.close();
+}
 
 } //namepsace find
 } //namespace imaging
