@@ -167,7 +167,7 @@ bool StreetCrossing::lineFitRansac(double& m, double& b)
     std::deque<LinePoint> inlierPoints;
     std::deque<LinePoint> bestInlierPoints;
 
-    for(int i=0; i<100; i++)
+    for(int i=0; i<searchParam.maxIterationsRANSAC; i++)
     {
 
         int inliers = 0;
@@ -187,7 +187,7 @@ bool StreetCrossing::lineFitRansac(double& m, double& b)
 
             for(const LinePoint& p : stopLine.points())
             {
-                if(computeDistance(aTemp, bTemp, cTemp, p) < 4)
+                if(computeDistance(aTemp, bTemp, cTemp, p) < searchParam.inlierThresholdRANSAC)
                 {
                     inliers++;
                     inlierPoints.push_back(p);
@@ -241,17 +241,6 @@ bool StreetCrossing::getRandomSample(int& idx1, int& idx2)
 double StreetCrossing::computeDistance(const double& a, const double& b, const double& c, const LinePoint& p)
 {
     return fabs(a*static_cast<double>(p.getX()) + b*static_cast<double>(p.getY()) + c)/sqrt(pow(a,2) + pow(b,2));
-}
-
-void StreetCrossing::saveLine(int i, int cnt)
-{
-    std::ofstream myfile;
-    myfile.open("/home/steffi/Phoenix/log/" + std::to_string(i) + "_" + std::to_string(cnt) + ".csv" );
-    for (int i = 0; i < stopLine.points().size(); ++i)
-    {
-        myfile << stopLine.points().at(i).getX() << "," << stopLine.points().at(i).getY() << std::endl;
-    }
-    myfile.close();
 }
 
 } //namepsace find
