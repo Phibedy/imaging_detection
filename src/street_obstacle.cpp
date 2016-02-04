@@ -55,9 +55,16 @@ bool StreetObstacle::find(DRAWDEBUG_PARAM_N){
             lms::math::vertex2i topTopImage;
             lms::math::vertex2i topImage;
             lms::math::vertex2i botImage;
-            lms::imaging::V2C(&toptop,&topTopImage);
-            lms::imaging::V2C(&top,&topImage);
-            lms::imaging::V2C(&bot,&botImage);
+
+            if(!lms::imaging::V2C(&toptop,&topTopImage)){
+                continue;
+            }
+            if(!lms::imaging::V2C(&top,&topImage)){
+                continue;
+            }
+            if(!lms::imaging::V2C(&bot,&botImage)){
+                continue;
+            }
             //gauss the pixel
             int colorTopTop = lms::imaging::op::gaussGrey(*searchParam.target,topTopImage.x, topTopImage.y);
             int colorTop = lms::imaging::op::gaussGrey(*searchParam.target,topImage.x, topImage.y);

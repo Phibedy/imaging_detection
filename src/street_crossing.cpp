@@ -48,7 +48,9 @@ bool StreetCrossing::find(DRAWDEBUG_PARAM_N){
         vertex2f targetBot = bot+norm*streetWidth/2;
         vertex2f targetTop = top+norm*streetWidth/2;
 
-        vecToLineParam(targetBot, targetTop, top, linePar);
+        if(!vecToLineParam(targetBot, targetTop, top, linePar)){
+            continue;
+        }
         if(stopLine.find(linePar DRAWDEBUG_ARG)) {
             if(stopLine.points().size() < 3)
                 break;
@@ -70,7 +72,9 @@ bool StreetCrossing::find(DRAWDEBUG_PARAM_N){
             //check if it's not a start line
             targetBot = foundStopLine-tangentDir*tangentStartLineOffset-norm*streetWidth;
             targetTop = foundStopLine+tangentDir*2*tangentStartLineOffset-norm*streetWidth;
-            vecToLineParam(targetBot,targetTop,top,linePar);
+            if(!vecToLineParam(targetBot,targetTop,top,linePar)){
+                continue;
+            }
 
             // search start line
             if(!leftPartStartLine.find(linePar DRAWDEBUG_ARG)){
@@ -84,7 +88,9 @@ bool StreetCrossing::find(DRAWDEBUG_PARAM_N){
                 //get the crossing right lane
                 targetBot = foundStopLine-tangentDir*tangentRightCrossingLineStart+norm*streetWidth;
                 targetTop = foundStopLine+tangentDir*tangentRightCrossingLineEnd+norm*streetWidth;
-                vecToLinePointParam(targetBot,targetTop,lpp);
+                if(!vecToLinePointParam(targetBot,targetTop,lpp)){
+                    continue;
+                }
                 bool rightCrossingLineFound = rightCrossingLine.find(lpp DRAWDEBUG_ARG);
 
                 if(rightCrossingLineFound){
@@ -103,7 +109,9 @@ bool StreetCrossing::find(DRAWDEBUG_PARAM_N){
                     //TODO Write street_obstacle class to find obstacles along a given path
                     targetBot = foundStopLine+tangentDir*streetWidth*1.5;
                     targetTop = targetBot + norm*streetWidth*1.5;
-                    vecToLinePointParam(targetBot,targetTop,lpp);
+                    if(!vecToLinePointParam(targetBot,targetTop,lpp)){
+                        continue;
+                    }
                     Line::LineParam obstacleLineParam = searchParam;
                     obstacleLineParam.x = lpp.x;
                     obstacleLineParam.y = lpp.y;

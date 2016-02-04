@@ -13,13 +13,17 @@ namespace detection {
  * @param end
  * @param lpp sets the searchANgle and the searchLength of the given LinePointParam
  */
-inline void vecToLinePointParam(const lms::math::vertex2f &start,const lms::math::vertex2f &end, LinePoint::LinePointParam &lpp){
+inline bool vecToLinePointParam(const lms::math::vertex2f &start,const lms::math::vertex2f &end, LinePoint::LinePointParam &lpp){
 
     lms::math::vertex2i targetBotImage;
     lms::math::vertex2i targetTopImage;
 
-    lms::imaging::V2C(&start,&targetBotImage);
-    lms::imaging::V2C(&end,&targetTopImage);
+    if(!lms::imaging::V2C(&start,&targetBotImage)){
+        return false;
+    }
+    if(!lms::imaging::V2C(&end,&targetTopImage)){
+        return false;
+    }
     //create hint
     float imageSearchDistance = (targetTopImage-targetBotImage).length();
     float searchAngle = (targetTopImage-targetBotImage).angle();
@@ -27,6 +31,7 @@ inline void vecToLinePointParam(const lms::math::vertex2f &start,const lms::math
     lpp.y = targetBotImage.y;
     lpp.searchAngle = searchAngle;
     lpp.searchLength = imageSearchDistance;
+    return true;
 }
 
 /**
@@ -36,16 +41,22 @@ inline void vecToLinePointParam(const lms::math::vertex2f &start,const lms::math
  * @param endMiddle
  * @param lp sets the searchANgle, searchLength and maxLength of the given LineParam
  */
-inline void vecToLineParam(const lms::math::vertex2f &start,const lms::math::vertex2f &end, const lms::math::vertex2f& endMiddle,
+inline bool vecToLineParam(const lms::math::vertex2f &start,const lms::math::vertex2f &end, const lms::math::vertex2f& endMiddle,
                            Line::LineParam &lp){
 
     lms::math::vertex2i targetBotImage;
     lms::math::vertex2i targetTopImage;
     lms::math::vertex2i targetEndMiddle;
 
-    lms::imaging::V2C(&start,&targetBotImage);
-    lms::imaging::V2C(&end,&targetTopImage);
-    lms::imaging::V2C(&endMiddle, &targetEndMiddle);
+    if(!lms::imaging::V2C(&start,&targetBotImage)){
+        return false;
+    }
+    if(!lms::imaging::V2C(&end,&targetTopImage)){
+         return false;
+     }
+    if(!lms::imaging::V2C(&endMiddle, &targetEndMiddle)){
+            return false;
+    }
     //create hint
     float imageSearchDistance = (targetTopImage-targetBotImage).length();
     float searchAngle = (targetTopImage-targetBotImage).angle();
@@ -54,6 +65,7 @@ inline void vecToLineParam(const lms::math::vertex2f &start,const lms::math::ver
     lp.searchAngle = searchAngle;
     lp.searchLength = imageSearchDistance;
     lp.maxLength = targetTopImage.distance(targetEndMiddle);
+    return true;
 }
 }
 }
