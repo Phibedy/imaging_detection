@@ -41,9 +41,12 @@ public:
         lms::math::polyLine2f middleLine;
         int boxDepthSearchLength;
         int boxPointsNeeded;
-        StreetCrossingParam():boxDepthSearchLength(0),boxPointsNeeded(1){}
+        StreetCrossingParam():boxDepthSearchLength(0),boxPointsNeeded(1),obstacleRightOffset(0),obstacleSobelThreshold(0),obstacleLeftOffset(0){}
         double inlierThresholdRANSAC;
         int maxIterationsRANSAC;
+        float obstacleRightOffset;
+        float obstacleLeftOffset;
+        float obstacleSobelThreshold;
     } searchParam;
 
     typedef StreetCrossingParam parameterType;

@@ -25,7 +25,7 @@ bool StreetCrossing::find(DRAWDEBUG_PARAM_N){
     using lms::math::vertex2f;
     using lms::math::vertex2i;
 
-    float streetWidth = 0.4;//width of one
+    float laneWidth = 0.4;//width of one
     float tangentStartLineOffset = 0.1;
     float tangentRightCrossingLineStart = 0.15;
     float tangentRightCrossingLineEnd = 0.15;
@@ -45,8 +45,8 @@ bool StreetCrossing::find(DRAWDEBUG_PARAM_N){
         //create hint
         vertex2f norm = tangentDir.rotateClockwise90deg();
 
-        vertex2f targetBot = bot+norm*streetWidth/2;
-        vertex2f targetTop = top+norm*streetWidth/2;
+        vertex2f targetBot = bot+norm*laneWidth/2;
+        vertex2f targetTop = top+norm*laneWidth/2;
 
         if(!vecToLineParam(targetBot, targetTop, top, linePar)){
             continue;
@@ -70,8 +70,8 @@ bool StreetCrossing::find(DRAWDEBUG_PARAM_N){
             lms::imaging::C2V(&tmp,&foundStopLine);
 
             //check if it's not a start line
-            targetBot = foundStopLine-tangentDir*tangentStartLineOffset-norm*streetWidth;
-            targetTop = foundStopLine+tangentDir*2*tangentStartLineOffset-norm*streetWidth;
+            targetBot = foundStopLine-tangentDir*tangentStartLineOffset-norm*laneWidth;
+            targetTop = foundStopLine+tangentDir*2*tangentStartLineOffset-norm*laneWidth;
             if(!vecToLineParam(targetBot,targetTop,top,linePar)){
                 continue;
             }
@@ -80,14 +80,14 @@ bool StreetCrossing::find(DRAWDEBUG_PARAM_N){
             if(!leftPartStartLine.find(linePar DRAWDEBUG_ARG)){
                 //it's not a Start-Line
                 //get the opposite stop lane
-                targetBot = foundStopLine + tangentDir*streetWidth - norm*streetWidth;
-                targetTop = targetBot + tangentDir *streetWidth;
+                targetBot = foundStopLine + tangentDir*laneWidth - norm*laneWidth;
+                targetTop = targetBot + tangentDir *laneWidth;
                 vecToLineParam(targetBot,targetTop, top, linePar);
                 oppositeStopLineFound = oppositeStopLine.find(linePar DRAWDEBUG_ARG);
 
                 //get the crossing right lane
-                targetBot = foundStopLine-tangentDir*tangentRightCrossingLineStart+norm*streetWidth;
-                targetTop = foundStopLine+tangentDir*tangentRightCrossingLineEnd+norm*streetWidth;
+                targetBot = foundStopLine-tangentDir*tangentRightCrossingLineStart+norm*laneWidth;
+                targetTop = foundStopLine+tangentDir*tangentRightCrossingLineEnd+norm*laneWidth;
                 if(!vecToLinePointParam(targetBot,targetTop,lpp)){
                     continue;
                 }
@@ -107,18 +107,36 @@ bool StreetCrossing::find(DRAWDEBUG_PARAM_N){
                     vecToLinePointParam(targetBot,targetTop,lpp);
                     */
                     //TODO Write street_obstacle class to find obstacles along a given path
-                    targetBot = foundStopLine+tangentDir*streetWidth*1.5;
-                    targetTop = targetBot + norm*streetWidth*1.5;
+                    targetBot = foundStopLine-norm*laneWidth+tangentDir*(laneWidth*1.5+searchParam.obstacleRightOffset);
+                    targetTop = targetBot + norm*laneWidth*3.0;
                     if(!vecToLinePointParam(targetBot,targetTop,lpp)){
                         continue;
                     }
                     Line::LineParam obstacleLineParam = searchParam;
+                    obstacleLineParam.sobelThreshold = searchParam.obstacleSobelThreshold;
                     obstacleLineParam.x = lpp.x;
                     obstacleLineParam.y = lpp.y;
                     obstacleLineParam.searchAngle = lpp.searchAngle;
                     obstacleLineParam.searchLength = lpp.searchLength;
                     obstacleLineParam.lineWidthMax = searchParam.boxDepthSearchLength;
                     blocked = isBlocked(obstacleLineParam DRAWDEBUG_ARG);
+
+                    if(!blocked){
+                        //search on the left side
+                        //TODO #IMPORTANT
+                        targetBot = foundStopLine+norm*laneWidth+tangentDir*(laneWidth*0.5+searchParam.obstacleLeftOffset);
+                        targetTop = targetBot - norm*laneWidth*2.5; //TODO der punkt liegt leicht außerhalb des bildes
+                        if(!vecToLinePointParam(targetBot,targetTop,lpp)){
+                            continue;
+                        }
+                        obstacleLineParam.sobelThreshold = searchParam.obstacleSobelThreshold;
+                        obstacleLineParam.x = lpp.x;
+                        obstacleLineParam.y = lpp.y;
+                        obstacleLineParam.searchAngle = lpp.searchAngle;
+                        obstacleLineParam.searchLength = lpp.searchLength;
+                        obstacleLineParam.lineWidthMax = searchParam.boxDepthSearchLength;
+                        blocked = isBlocked(obstacleLineParam DRAWDEBUG_ARG);
+                    }
                     return true;
                 }
 
