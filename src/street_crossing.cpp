@@ -123,7 +123,6 @@ bool StreetCrossing::find(DRAWDEBUG_PARAM_N){
 
                     if(!blocked){
                         //search on the left side
-                        //TODO #IMPORTANT
                         targetBot = foundStopLine+norm*laneWidth+tangentDir*(laneWidth*0.5+searchParam.obstacleLeftOffset);
                         targetTop = targetBot - norm*laneWidth*2.5; //TODO der punkt liegt leicht außerhalb des bildes
                         if(!vecToLinePointParam(targetBot,targetTop,lpp)){
