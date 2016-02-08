@@ -19,7 +19,7 @@ public:
         bool obstacleLeft; //if the obstacle is on the left of the middleLine
         //In world coordinates
         lms::math::polyLine2f middleLine;
-        float targetThres; //difference between target color and black
+        float obstaclePreSearch; //difference between target color and black
         float minDistanceBetweenSearchPoints; //distance between two points (tangetial)
         int numerOfSegmentsOrth;
         int boxDepthSearchLength;
@@ -32,7 +32,7 @@ public:
 
         virtual void fromConfig(const lms::Config *config){
             LineParam::fromConfig(config);
-            targetThres = config->get<float>("targetThres",100);
+            obstaclePreSearch = config->get<float>("targetThres",100);
             numerOfSegmentsOrth = config->get<int>("numerOfSegmentsOrth",4);
             minDistanceBetweenSearchPoints = config->get<float>("minDistanceBetweenSearchPoints",0.2);
             minPointCount = config->get<int>("minPointCount",1);

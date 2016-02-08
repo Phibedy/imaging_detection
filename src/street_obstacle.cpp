@@ -71,14 +71,24 @@ bool StreetObstacle::find(DRAWDEBUG_PARAM_N){
             int colorBot = lms::imaging::op::gaussGrey(*searchParam.target,botImage.x, botImage.y);
             //draw debug point
             DRAWCROSS(botImage.x,botImage.y,0,255,0);
-            if(colorTop-colorBot > searchParam.targetThres){
+            if(colorTop-colorBot > searchParam.obstaclePreSearch){
                 //may found an obstacle...
                 Line edgeLine;
                 //set search param
                 //std::cout<<topImage.x << "-"<<botImage.x <<" | "<< topImage.y<< "-" <<botImage.y<<std::endl;
-                if(lines.size() > 1)
-                    searchParam.maxLength = (lines[0].points()[i]-lines[1].points()[i]).length()*2.0/3;//length used to search orthgonal;
-                else
+                if(lines.size() > 1){
+                    lms::math::vertex2i leftImage;
+                    lms::math::vertex2i rightImage;
+                    if(!lms::imaging::V2C(&lines[0].points()[i],&leftImage)){
+                        continue;
+                    }
+                    if(!lms::imaging::V2C(&lines[1].points()[i],&rightImage)){
+                        continue;
+                    }
+
+                    searchParam.maxLength = leftImage.distance(rightImage);//length used to search orthgonal;
+                    //std::cout <<"maxLengthAAAAAAAAAA: "<<searchParam.maxLength<<std::endl;
+                }else
                     searchParam.maxLength = 1;
 
                 searchParam.searchLength = topImage.distance(botImage);
@@ -91,13 +101,13 @@ bool StreetObstacle::find(DRAWDEBUG_PARAM_N){
                     results.push_back(edgeLine);
                     break; //only find one obstacle per line
                 }
-            }else if(colorTopTop-colorBot > searchParam.targetThres){
+            }else if(colorTopTop-colorBot > searchParam.obstaclePreSearch){
                 //may found an obstacle...
                 Line edgeLine;
                 //set search param
                 //std::cout<<topImage.x << "-"<<botImage.x <<" | "<< topImage.y<< "-" <<botImage.y<<std::endl;
                 if(lines.size() > 1)
-                    searchParam.maxLength = (lines[0].points()[i]-lines[1].points()[i]).length()*2.0/3;//length used to search orthgonal;
+                    searchParam.maxLength = 2.f/3*(lines[0].points()[i]-lines[1].points()[i]).length();//length used to search orthgonal;
                 else
                     searchParam.maxLength = 1;
 
@@ -106,6 +116,7 @@ bool StreetObstacle::find(DRAWDEBUG_PARAM_N){
                 searchParam.x = botImage.x;
                 searchParam.y = botImage.y;
                 searchParam.searchAngle = (topTopImage-botImage).angle();
+                //searchParam.stepLengthMin =;
                 if(edgeLine.find(searchParam DRAWDEBUG_ARG) && (int)edgeLine.points().size() > searchParam.minPointCount){
                     //found an edge that might be a obstacle
                     results.push_back(edgeLine);
