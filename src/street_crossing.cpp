@@ -83,6 +83,7 @@ bool StreetCrossing::find(DRAWDEBUG_PARAM_N){
                 targetBot = foundStopLine + tangentDir*laneWidth - norm*laneWidth;
                 targetTop = targetBot + tangentDir *laneWidth;
                 vecToLineParam(targetBot,targetTop, top, linePar);
+                linePar.lineWidthTransMultiplier = 1.5; //TODO warum braucht man das hier? #HACK
                 oppositeStopLineFound = oppositeStopLine.find(linePar DRAWDEBUG_ARG);
 
                 //get the crossing right lane

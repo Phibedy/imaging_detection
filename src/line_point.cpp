@@ -78,6 +78,7 @@ bool LinePoint::findAlongLine(DRAWDEBUG_PARAM_N){
     param.searchType = EdgePoint::EdgeType::HIGH_LOW;
     param.x = low_high.x;
     param.y = low_high.y;
+    param.searchLength = m_LinePointParam.lineWidthMax;
     //TODO use the sobel angle?
     //TODO: Maybe do some error checking on the sobelAngle?
     //param.searchAngle = low_high.sobelNormal();

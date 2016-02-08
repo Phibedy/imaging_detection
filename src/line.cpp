@@ -71,7 +71,7 @@ bool Line::find(DRAWDEBUG_PARAM_N){
     m_points.push_front(lp);
     //found receptor point -> try to extend the line
     extend(true DRAWDEBUG_ARG);
-    extend(false DRAWDEBUG_ARG); //TODO #IMPORTANT
+    extend(false DRAWDEBUG_ARG);
     return true;
 }
 
@@ -197,7 +197,7 @@ void Line::extend(bool direction DRAWDEBUG){
             LinePoint::LinePointParam param = m_LineParam;
             param.x = pixel.x;
             param.y = pixel.y;
-            param.searchLength = 2*m_LineParam.lineWidthMax*m_LineParam.lineWidthTransMultiplier;
+            param.searchLength = 2*m_LineParam.lineWidthTransMultiplier*currentStepLength;
             param.searchAngle = oldSearchAngle;
 
             if(findPoint(searchPoint,param DRAWDEBUG_ARG)){
