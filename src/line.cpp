@@ -159,8 +159,8 @@ void Line::extend(bool direction DRAWDEBUG){
         //get needed stuff
         //float lineWidth = searchPoint.distance();
 
-        pixel.x = searchPoint.param().x;//.low_high.x;
-        pixel.y = searchPoint.param().y;//.low_high.y;
+        pixel.x = searchPoint.low_high.x;
+        pixel.y = searchPoint.low_high.y;
         float oldSearchAngle = m_LineParam.searchAngle;
         float oldSearchAngleOrth;
         if(m_points.size() > 1){
