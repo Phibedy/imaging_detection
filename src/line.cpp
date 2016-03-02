@@ -48,20 +48,7 @@ bool Line::find(DRAWDEBUG_PARAM_N){
     LinePoint lp;
     LinePoint::LinePointParam lParam = m_LineParam;
     lParam.sobelThreshold = 50;
-    bool found = false;
-    if(m_LineParam.preferVerify){
-        if(m_LineParam.verify){
-            found = verifyPoint(lp,lParam DRAWDEBUG_ARG);
-        }
-        if(!found){
-            found = findPoint(lp,lParam DRAWDEBUG_ARG);
-        }
-    }else{
-        found = findPoint(lp,lParam DRAWDEBUG_ARG);
-        if(!found && m_LineParam.verify){
-            found = verifyPoint(lp,lParam DRAWDEBUG_ARG);
-        }
-    }
+    bool found = findPoint(lp,lParam DRAWDEBUG_ARG);
     m_points.clear();
     //std::cout<<"found::::: "<<found<<" "<<lParam.edge<<std::endl;
 
@@ -73,41 +60,6 @@ bool Line::find(DRAWDEBUG_PARAM_N){
     extend(true DRAWDEBUG_ARG);
     extend(false DRAWDEBUG_ARG);
     return true;
-}
-
-bool Line::verifyPoint(LinePoint &lp, LinePoint::LinePointParam lParam DRAWDEBUG_PARAM){
-    bool found = false;
-    if(m_LineParam.verify && m_points.size() > 0){
-        //get the ending that is close to the search-point
-        int start = m_points.size()/3;
-        if(pow(m_points[0].param().x-m_LineParam.x,2) +pow(m_points[0].param().y-m_LineParam.y,2)<pow(m_points[m_points.size()-1].param().x-m_LineParam.x,2) +pow(m_points[m_points.size()-1].param().y-m_LineParam.y,2)){
-            for(uint i = start; i < m_points.size(); i++){
-                LinePoint &old = m_points[i];
-                lParam.x = old.param().x;
-                lParam.y = old.param().y;
-                lParam.searchAngle = old.getAngle();
-                //std::cout << "try to find: " << lParam.x << " "<<lParam.y << " "<< lParam.searchAngle<<std::endl;
-                if(findPoint(lp,lParam DRAWDEBUG_ARG)){
-                    found = true;
-                    break;
-                }
-            }
-        }else{
-            for(int i = m_points.size()-1-start; i >= 0; i--){
-                LinePoint &old = m_points[i];
-                lParam.x = old.param().x;
-                lParam.y = old.param().y;
-                lParam.searchAngle = old.getAngle();
-                //std::cout << "try to find: " << lParam.x << " "<<lParam.y << " "<< lParam.searchAngle<<std::endl;
-
-                if(findPoint(lp,lParam DRAWDEBUG_ARG)){
-                    found = true;
-                    break;
-                }
-            }
-        }
-    }
-    return found;
 }
 
 bool Line::getSearchPoint(int &x, int &y, float &angle){

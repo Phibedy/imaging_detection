@@ -157,8 +157,6 @@ bool StreetCrossing::find(DRAWDEBUG_PARAM_N){
 
 bool StreetCrossing::isBlocked(Line::LineParam lParam DRAWDEBUG_PARAM){
     lParam.edge = true;
-    lParam.preferVerify = false;
-    lParam.verify  =false;
     lParam.fixedSearchAngle = true;
     lParam.validPoint = [lParam,this](lms::imaging::detection::LinePoint &lp DRAWDEBUG_PARAM)->bool{
         lms::imaging::detection::EdgePoint check = lp.low_high;

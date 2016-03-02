@@ -64,7 +64,6 @@ public:
 protected:
 
     void extend(bool direction DRAWDEBUG);
-    bool verifyPoint(LinePoint &lp, LinePoint::LinePointParam lParam DRAWDEBUG_PARAM);
     //get a good point that could be found next time again with searchAngle
     bool getSearchPoint(int &x, int &y, float &angle);
     LineParam m_LineParam;

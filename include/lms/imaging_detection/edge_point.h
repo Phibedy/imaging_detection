@@ -30,17 +30,13 @@ public:
     struct EdgePointParam:public SobelArray::SobelArrayParam{
         EdgePointParam() : x(0), y(0), target(nullptr), searchLength(0),
             searchAngle(0), searchType(EdgeType::PLANE), sobelThreshold(0),
-            verify(false), preferVerify(false),findMax(false) {
+            findMax(false) {
         }
 
         virtual void fromConfig(const lms::Config *config){
             SobelArrayParam::fromConfig(config);
             if(config->hasKey("sobelThreshold"))
                 sobelThreshold = config->get<float>("sobelThreshold",150);
-            if(config->hasKey("verify"))
-                verify = config->get<bool>("verify",true);
-            if(config->hasKey("preferVerify"))
-                preferVerify = config->get<bool>("preferVerify",false);
             if(config->hasKey("findMax"))
                 findMax = config->get<bool>("findMax",false);
             //TODO searchType = config->get<EdgeType>("searchType",EdgeType::PLANE);
@@ -57,12 +53,6 @@ public:
         float searchAngle;
         EdgeType searchType;
         int sobelThreshold;
-        /**
-         * @brief verify if true find will try to find it with the old values
-         * if the new one don't find anything
-         */
-        bool verify;
-        bool preferVerify;
         bool findMax;
     };
 

@@ -14,8 +14,6 @@ bool StreetObstacle::find(DRAWDEBUG_PARAM_N){
     float streetWidth = 0.4; //TODO move to config
     //set search param for detecting edges
     searchParam.edge = true; //just in case someone forgot it
-    searchParam.preferVerify = false;
-    searchParam.verify  =false;
     searchParam.fixedSearchAngle = true;
     //std::function<bool(lms::imaging::detection::LinePoint& DRAWDEBUG_PARAM)>
     searchParam.validPoint = [this](lms::imaging::detection::LinePoint &lp DRAWDEBUG_PARAM)->bool{
