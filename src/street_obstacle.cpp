@@ -36,7 +36,7 @@ bool StreetObstacle::find(DRAWDEBUG_PARAM_N){
     //get searchPoints
     for(int i = 0; i < searchParam.numerOfSegmentsOrth; i++){
         float p = ((float)i+1)/(searchParam.numerOfSegmentsOrth+1);
-        if(searchParam.obstacleLeft){
+        if(searchParam.obstacleRight){
             lines.push_back(newMid.moveOrthogonal(-streetWidth*p));
         }else{
             lines.push_back(newMid.moveOrthogonal(streetWidth*p));

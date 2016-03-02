@@ -16,7 +16,7 @@ namespace detection {
 class StreetObstacle:public ImageObject{
 public:
     struct StreetObstacleParam:public Line::LineParam{
-        bool obstacleLeft; //if the obstacle is on the left of the middleLine
+        bool obstacleRight; //if the obstacle is on the right side of the middleLine
         //In world coordinates
         lms::math::polyLine2f middleLine;
         float obstaclePreSearch; //difference between target color and black
@@ -37,6 +37,7 @@ public:
             minDistanceBetweenSearchPoints = config->get<float>("minDistanceBetweenSearchPoints",0.2);
             minPointCount = config->get<int>("minPointCount",1);
             boxDepthSearchLength = config->get<int>("boxDepthSearchLength",10);
+            obstacleRight = config->get<bool>("obstacleRight",false);
         }
     } searchParam;
 
