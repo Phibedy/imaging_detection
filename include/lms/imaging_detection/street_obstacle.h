@@ -32,7 +32,7 @@ public:
 
         virtual void fromConfig(const lms::Config *config){
             LineParam::fromConfig(config);
-            obstaclePreSearch = config->get<float>("targetThres",100);
+            obstaclePreSearch = config->get<float>("obstaclePreSearch",100);
             numerOfSegmentsOrth = config->get<int>("numerOfSegmentsOrth",4);
             minDistanceBetweenSearchPoints = config->get<float>("minDistanceBetweenSearchPoints",0.2);
             minPointCount = config->get<int>("minPointCount",1);
