@@ -8,6 +8,7 @@ set ( SOURCES
     "src/street_crossing.cpp"
     "src/street_obstacle.cpp"
     "src/sobel_array.cpp"
+    "src/warp.cpp"
 )
 set (HEADERS
     "include/lms/imaging_detection/edge_point.h"
@@ -22,6 +23,12 @@ set (HEADERS
     "include/lms/imaging_detection/street_crossing.h"
     "include/lms/imaging_detection/street_obstacle.h"
     "include/lms/imaging_detection/street_utils.h"
+##########magic
+    "include/lms/imaging/warp.h"
+    "include/lms/imaging/magic/n2d.h"
+    "include/lms/imaging/magic/lutx.h"
+    "include/lms/imaging/magic/luty.h"
+    "include/lms/imaging/magic/cali_ab.h"
 )
 
 include_directories("include")
