@@ -8,6 +8,50 @@ namespace imaging {
 
 WarpContent WarpContent::instance;
 
+
+// new approach on point undistortion based on OpenCV undistrotPoints
+bool undistort(double x, double y, double *xres, double* yres) {
+
+  WarpContent& defaultContent = WarpContent::instance;
+
+  if(! defaultContent.initialized){
+      std::cout << "WarpContent::instance not initialized. Please use warp_service."
+                   << std::endl;
+  }
+
+  double k[14] = {defaultContent.K1, defaultContent.K2, defaultContent.K3, defaultContent.K4, defaultContent.K5, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+  double fx, fy, ifx, ify, cx, cy;
+  int i,j,n, iters=5;
+
+  //TODO failsafe
+  fx = defaultContent.Fx; //cameraMatrix[0][0] 
+  fy = defaultContent.Fy; //cameraMatrix[1][1]
+  cx = defaultContent.Cx; //cameraMatrix[0][2] 
+  cy = defaultContent.Cy; //cameraMatrix[1][2] 
+  ifx = 1./fx;
+  ify = 1./fy;
+
+
+  double x0, y0;
+  x = x0 = (x - cx) * ifx;
+  y = y0 = (y - cy) * ify;
+
+  for( j = 0; j < iters; j++ )
+        {
+            double r2 = x*x + y*y;
+            double icdist = (1 + ((k[7]*r2 + k[6])*r2 + k[5])*r2)/(1 + ((k[4]*r2 + k[1])*r2 + k[0])*r2);
+            double deltaX = 2*k[2]*x*y + k[3]*(r2 + 2*x*x)+ k[8]*r2+k[9]*r2*r2;
+            double deltaY = k[2]*(r2 + 2*y*y) + 2*k[3]*x*y+ k[10]*r2+k[11]*r2*r2;
+            x = (x0 - deltaX)*icdist;
+            y = (y0 - deltaY)*icdist;
+        }
+
+  *xres = x; 
+  *yres = y; 
+
+}
+
+
 bool C2V(const lms::math::vertex2i* lp, lms::math::vertex2f* rp) {
     WarpContent& defaultContent = WarpContent::instance;
 
@@ -19,7 +63,8 @@ bool C2V(const lms::math::vertex2i* lp, lms::math::vertex2f* rp) {
 
     int x = lp->x;
     int y = lp->y;
-
+   
+   /* Commented out for test of undistort 
     //Quentin LUT: Umrechnung in ein unverzerrtes Zentralprojektionsbild.
     ///TODO: Image Size
     if (x <  0 || y<0 || x >= defaultContent.CALI_WIDTH|| y >= defaultContent.CALI_HEIGHT) {
@@ -30,7 +75,8 @@ bool C2V(const lms::math::vertex2i* lp, lms::math::vertex2f* rp) {
 
     xtemp = defaultContent.d2nX[index];
     ytemp = defaultContent.d2nY[index];
-
+*/
+    undistort(x, y, defaultContent.cameraMatrix, defaultContent.distortionCoeffs, &xtemp, &ytemp); 
    //Felix: Umrechnung des unverzerrten bilds in Auto/Straßenkoordinaten.
     //fail bei 752 * 410 sind xtemp und ytemp so klein, dass a,b,c nur von dem letzten summanden abhängen
     double a = xtemp * defaultContent.cam2world[0] + ytemp * defaultContent.cam2world[1] + defaultContent.cam2world[2];
