@@ -1,0 +1,6 @@
+{
+"name": "imaging",
+"dependencies":["imaging","math_lib","lms"],
+"description":"Imaging dection",
+"includes":["include"]
+}
