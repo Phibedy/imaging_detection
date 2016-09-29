@@ -1,3 +1,8 @@
+cmake_minimum_required(VERSION 2.8.12)
+
+include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+conan_basic_setup()
+
 set ( SOURCES
     "src/edge_point.cpp"
     "src/line.cpp"
@@ -39,4 +44,4 @@ if((${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang") OR (${CMAKE_CXX_COMPILER_ID} STRE
 endif()
 
 add_library (imaging_detection SHARED ${SOURCES} ${HEADERS})
-target_link_libraries (imaging_detection PRIVATE lmscore imaging math_lib)
+target_link_libraries (imaging_detection PRIVATE ${CONAN_LIBS})
