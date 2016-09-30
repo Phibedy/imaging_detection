@@ -43,5 +43,5 @@ if((${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang") OR (${CMAKE_CXX_COMPILER_ID} STRE
     set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -Wreturn-type -Wpedantic ")
 endif()
 
-add_library (imaging_detection SHARED ${SOURCES} ${HEADERS})
-target_link_libraries (imaging_detection PRIVATE ${CONAN_LIBS})
+add_library (lms_imaging_detection SHARED ${SOURCES} ${HEADERS})
+target_link_libraries (lms_imaging_detection PRIVATE ${CONAN_LIBS})
