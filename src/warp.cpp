@@ -19,6 +19,7 @@ bool C2V(const lms::math::vertex2i* lp, lms::math::vertex2f* rp) {
 
     int x = lp->x;
     int y = lp->y;
+    if (defaultContent.needsDistortion){
 
     //Quentin LUT: Umrechnung in ein unverzerrtes Zentralprojektionsbild.
     ///TODO: Image Size
@@ -30,7 +31,9 @@ bool C2V(const lms::math::vertex2i* lp, lms::math::vertex2f* rp) {
 
     xtemp = defaultContent.d2nX[index];
     ytemp = defaultContent.d2nY[index];
-
+    }
+    xtemp = x;
+    ytemp = y;
    //Felix: Umrechnung des unverzerrten bilds in Auto/Straßenkoordinaten.
     //fail bei 752 * 410 sind xtemp und ytemp so klein, dass a,b,c nur von dem letzten summanden abhängen
     double a = xtemp * defaultContent.cam2world[0] + ytemp * defaultContent.cam2world[1] + defaultContent.cam2world[2];
@@ -62,8 +65,11 @@ bool V2C(const lms::math::vertex2f* rp, lms::math::vertex2i* px) {
     float c = x * defaultContent.world2cam[6] + y * defaultContent.world2cam[7] + defaultContent.world2cam[8];
     x = a / c;
     y = b / c;
-    const float xNorm = x, yNorm = y;
-    n2d(xNorm, yNorm, x, y);
+
+    if (defaultContent.needsDistortion){
+        const float xNorm = x, yNorm = y; //TODO einfach entfernt
+        n2d(xNorm, yNorm, x, y);
+    }
     px->x = (int16_t)x;
     px->y = (int16_t)y;
 

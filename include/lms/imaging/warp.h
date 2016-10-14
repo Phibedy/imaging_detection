@@ -35,6 +35,7 @@ struct WarpContent{
     WarpContent() : initialized(false) {}
 
     bool initialized;
+    bool needsDistortion;
 
     int CALI_WIDTH;
     int CALI_HEIGHT;
@@ -132,6 +133,7 @@ struct WarpContent{
         K3 = cali->get<float>("K3");
         K4 = cali->get<float>("K4");
         K5 = cali->get<float>("K5");
+        needsDistortion = cali->get<bool>("needsDistortion",false);
 
 
         //debug
