@@ -1,7 +1,13 @@
+if(USE_CONAN)
+message(STATUS "Using CONAN")
 cmake_minimum_required(VERSION 2.8.12)
 
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
+else()
+message(STATUS "NOT Using CONAN")
+
+endif(USE_CONAN)
 
 set ( SOURCES
     "src/edge_point.cpp"
@@ -38,10 +44,15 @@ set (HEADERS
 
 include_directories("include")
 
+
 #set compiler flags
 if((${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang") OR (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU"))
     set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -Wreturn-type -Wpedantic ")
 endif()
 
 add_library (lms_imaging_detection SHARED ${SOURCES} ${HEADERS})
+if(USE_CONAN)
 target_link_libraries (lms_imaging_detection PRIVATE ${CONAN_LIBS})
+else()
+target_link_libraries (lms_imaging_detection PRIVATE lmscore imaging math_lib)
+endif(USE_CONAN)

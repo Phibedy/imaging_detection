@@ -20,17 +20,16 @@ bool C2V(const lms::math::vertex2i* lp, lms::math::vertex2f* rp) {
     int x = lp->x;
     int y = lp->y;
     if (defaultContent.needsDistortion){
+        //Quentin LUT: Umrechnung in ein unverzerrtes Zentralprojektionsbild.
+        ///TODO: Image Size
+        if (x <  0 || y<0 || x >= defaultContent.CALI_WIDTH|| y >= defaultContent.CALI_HEIGHT) {
+            return false;
+        }
+        //Man nimmt den punkt aus der lookup-table zum entzerren
+        int index = x*defaultContent.CALI_HEIGHT+y;
 
-    //Quentin LUT: Umrechnung in ein unverzerrtes Zentralprojektionsbild.
-    ///TODO: Image Size
-    if (x <  0 || y<0 || x >= defaultContent.CALI_WIDTH|| y >= defaultContent.CALI_HEIGHT) {
-        return false;
-    }
-    //Man nimmt den punkt aus der lookup-table zum entzerren
-    int index = x*defaultContent.CALI_HEIGHT+y;
-
-    xtemp = defaultContent.d2nX[index];
-    ytemp = defaultContent.d2nY[index];
+        xtemp = defaultContent.d2nX[index];
+        ytemp = defaultContent.d2nY[index];
     }
     xtemp = x;
     ytemp = y;
@@ -91,19 +90,24 @@ bool n2d(const float & xn, const float & yn, float & xdist, float & ydist) {
         std::cout << "WarpContent::instance not initialized. Please use warp_service."
                      << std::endl;
     }
-    const float xnorm =(float)(xn-defaultContent.Cx)/defaultContent.Fx, ynorm = (float)(yn-defaultContent.Cy)/defaultContent.Fy;
-    float r2 = xnorm*xnorm + ynorm*ynorm;
-    float dist = 1 + defaultContent.K1*r2 + defaultContent.K2*r2*r2;
-    float dx = 2*defaultContent.K3*xnorm*ynorm + defaultContent.K4*(r2+xnorm*xnorm);
-    float dy = defaultContent.K3*(r2+ynorm*ynorm) + 2*defaultContent.K4*xnorm*ynorm;
+    if(defaultContent.needsDistortion){
+        const float xnorm =(float)(xn-defaultContent.Cx)/defaultContent.Fx, ynorm = (float)(yn-defaultContent.Cy)/defaultContent.Fy;
+        float r2 = xnorm*xnorm + ynorm*ynorm;
+        float dist = 1 + defaultContent.K1*r2 + defaultContent.K2*r2*r2;
+        float dx = 2*defaultContent.K3*xnorm*ynorm + defaultContent.K4*(r2+xnorm*xnorm);
+        float dy = defaultContent.K3*(r2+ynorm*ynorm) + 2*defaultContent.K4*xnorm*ynorm;
 
-    // Distortion
-    xdist = dist*xnorm + dx;
-    ydist = dist*ynorm + dy;
+        // Distortion
+        xdist = dist*xnorm + dx;
+        ydist = dist*ynorm + dy;
 
-    // Camera position
-    xdist = defaultContent.Fx*xdist + defaultContent.Cx;
-    ydist = defaultContent.Fy*ydist + defaultContent.Cy;
+        // Camera position
+        xdist = defaultContent.Fx*xdist + defaultContent.Cx;
+        ydist = defaultContent.Fy*ydist + defaultContent.Cy;
+    }else{
+        xdist = xn;
+        ydist = yn;
+    }
 
     return true;
 }
