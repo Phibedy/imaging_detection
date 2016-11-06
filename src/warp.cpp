@@ -113,10 +113,12 @@ bool n2d(const float & xn, const float & yn, float & xdist, float & ydist) {
 }
 
 void imageV2C(const Image &input, Image &output) {
+    /*
     if(input.width() != 320 || input.height() != 240 ||
             input.format() != Format::GREY) {
         //return false;
     }
+    */
 
     const int textureSize = 512;
     const int planeSize = 5;
@@ -139,7 +141,7 @@ void imageV2C(const Image &input, Image &output) {
                     && out.y >= 0 && out.y < input.height()) {
                 color = *(input.data() + out.y * input.width() + out.x);
             } else {
-                color = 127;
+                color = 0;// 127; //TODO warum 127?
             }
             *(output.data() + y * output.width() + x) = color;
         }
