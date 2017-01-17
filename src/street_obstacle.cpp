@@ -85,7 +85,6 @@ bool StreetObstacle::find(DRAWDEBUG_PARAM_N){
                     }
 
                     searchParam.maxLength = leftImage.distance(rightImage);//length used to search orthgonal;
-                    //std::cout <<"maxLengthAAAAAAAAAA: "<<searchParam.maxLength<<std::endl;
                 }else
                     searchParam.maxLength = 1;
 
